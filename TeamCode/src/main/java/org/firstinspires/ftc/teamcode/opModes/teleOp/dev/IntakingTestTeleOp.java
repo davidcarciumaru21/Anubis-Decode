@@ -20,7 +20,7 @@ public class IntakingTestTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        intake.on(1);
-        indexer.on(1);
+        intake.pull();
+        indexer.pull();
     }
 }

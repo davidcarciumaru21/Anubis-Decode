@@ -15,9 +15,12 @@ public class Indexer {
         indexer.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void on(int mode) {
-        if (mode == 1) indexer.setPower(1.0);
-        else if (mode == 2) indexer.setPower(-1.0);
+    public void pull() {
+        indexer.setPower(1.0);
+    }
+
+    public void push() {
+        indexer.setPower(-1.0);
     }
 
     public void off() {

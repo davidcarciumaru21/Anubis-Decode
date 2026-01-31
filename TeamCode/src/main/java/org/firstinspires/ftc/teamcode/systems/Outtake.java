@@ -91,4 +91,9 @@ public class Outtake {
 
         outtake.setPower(power);
     }
+
+    public void changePI(double p, double i) {
+        kP = p;
+        kI = i;
+    }
 }
