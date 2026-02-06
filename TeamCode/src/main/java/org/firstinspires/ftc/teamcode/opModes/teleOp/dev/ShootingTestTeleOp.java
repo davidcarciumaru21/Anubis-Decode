@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.systems.Deflector;
+import org.firstinspires.ftc.teamcode.systems.Indexer;
+import org.firstinspires.ftc.teamcode.systems.Intake;
 import org.firstinspires.ftc.teamcode.systems.Outtake;
 
 @TeleOp(name = "ShootingTestTeleOp", group = "Dev")
@@ -12,6 +14,8 @@ public class ShootingTestTeleOp extends OpMode {
 
     private Outtake outtake;
     private Deflector deflector;
+    private Intake intake;
+    private Indexer indexer;
 
     private ElapsedTime timer;
 
@@ -23,6 +27,8 @@ public class ShootingTestTeleOp extends OpMode {
 
         outtake = new Outtake(hardwareMap);
         deflector = new Deflector(hardwareMap);
+        intake = new Intake(hardwareMap);
+        indexer = new Indexer(hardwareMap);
     }
 
     @Override
@@ -36,6 +42,9 @@ public class ShootingTestTeleOp extends OpMode {
         outtake.move(rpm);
         outtake.update(timer.milliseconds());
         deflector.move(pose);
+        intake.pull();
+        if (gamepad1.bWasPressed()) indexer.off();
+        if (gamepad1.aWasPressed()) indexer.pull();
         timer.reset();
 
         telemetry.addData("rpm", rpm);

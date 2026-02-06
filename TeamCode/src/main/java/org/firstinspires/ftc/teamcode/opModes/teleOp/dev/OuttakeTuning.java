@@ -1,8 +1,11 @@
-package org.firstinspires.ftc.teamcode.opModes.teleOp.dev.outakePIDFTunner;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+package org.firstinspires.ftc.teamcode.opModes.teleOp.dev;
 
 import com.pedropathing.telemetry.SelectableOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.opModes.teleOp.dev.outakePIDFTunner.OuttakeKsTuner;
+import org.firstinspires.ftc.teamcode.opModes.teleOp.dev.outakePIDFTunner.OuttakeKvTuner;
+import org.firstinspires.ftc.teamcode.opModes.teleOp.dev.outakePIDFTunner.OuttakePITuner;
 
 @TeleOp(name = "OuttakeTuning", group = "Tuning")
 public class OuttakeTuning extends SelectableOpMode {

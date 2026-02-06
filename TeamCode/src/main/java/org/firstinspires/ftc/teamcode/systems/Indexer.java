@@ -12,7 +12,6 @@ public class Indexer {
     public Indexer(HardwareMap hardwareMap) {
         indexer = hardwareMap.get(DcMotorEx.class, "Indexer");
         indexer.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        indexer.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void pull() {
