@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 public class Intake {
 
     private DcMotorEx intake;
@@ -27,4 +29,7 @@ public class Intake {
         intake.setPower(0.0);
     }
 
+    public double getCurrent() {
+        return intake.getCurrent(CurrentUnit.AMPS);
+    }
 }

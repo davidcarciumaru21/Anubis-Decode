@@ -5,6 +5,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.systems.Deflector;
@@ -41,18 +42,19 @@ public class ManualRobotTeleOp extends OpMode {
     public void init() {
         timer = new ElapsedTime();
 
-        frontLeftMotor = hardwareMap.dcMotor.get("MotorFL");
-        backLeftMotor = hardwareMap.dcMotor.get("MotorBL");
-        frontRightMotor = hardwareMap.dcMotor.get("MotorFR");
-        backRightMotor = hardwareMap.dcMotor.get("MotorBR");
+        frontLeftMotor = hardwareMap.dcMotor.get("FrontLeftMotor");
+        backLeftMotor = hardwareMap.dcMotor.get("BackLeftMotor");
+        frontRightMotor = hardwareMap.dcMotor.get("FrontRightMotor");
+        backRightMotor = hardwareMap.dcMotor.get("BackRightMotor");
 
         outtake = new Outtake(hardwareMap);
         intake = new Intake(hardwareMap);
         indexer = new Indexer(hardwareMap);
         deflector = new Deflector(hardwareMap);
 
+
         frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

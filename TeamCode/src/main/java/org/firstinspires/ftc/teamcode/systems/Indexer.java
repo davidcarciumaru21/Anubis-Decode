@@ -15,11 +15,11 @@ public class Indexer {
     }
 
     public void pull() {
-        indexer.setPower(0.7);
+        indexer.setPower(1.0);
     }
 
     public void push() {
-        indexer.setPower(-0.7);
+        indexer.setPower(-1.0);
     }
 
     public void off() {

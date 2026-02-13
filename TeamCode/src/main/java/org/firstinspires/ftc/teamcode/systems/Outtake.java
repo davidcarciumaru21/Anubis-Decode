@@ -17,10 +17,10 @@ public class Outtake {
 
     private static final double TICKS_PER_REV = 28.0;
 
-    public static double kS = 1.28;
-    public static double kV = 0.00235;
-    public static double kP = 0.2;
-    public static double kI = 0.0;
+    public static double kS = 0.92;
+    public static double kV = 0.0021;
+    public static double kP = 0.23;
+    public static double kI = 0;
 
     public static double MAX_ACCEL_RPM_PER_SEC = 3000;
     public static double I_ENABLE_ERROR = 0;
@@ -107,7 +107,19 @@ public class Outtake {
         kI = i;
     }
 
+    public void changeKs(double s) {
+        kS = s;
+    }
+
+    public void changeKv(double v) {
+        kV = v;
+    }
+
     public double getKs() {
         return kS;
+    }
+
+    public double getKv() {
+        return kV;
     }
 }
