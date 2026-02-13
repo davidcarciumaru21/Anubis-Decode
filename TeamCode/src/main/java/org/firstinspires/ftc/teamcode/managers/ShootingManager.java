@@ -51,11 +51,11 @@ public class ShootingManager {
     }
 
     public double getTargetVelocity(double distance) {
-        return 1.0;
+        return 0.0227722 * Math.pow(distance, 2) + 5.57798 * distance + 2294.11435;
     }
 
     public double getTargetPose(double distance) {
-        return 1.0;
+        return (2.98921 * Math.pow(10, -7)) * Math.pow(distance, 3) - 0.00000316315 * Math.pow(distance, 2) - 0.012683 * distance + 1.20283;
     }
 
     private void applyTargets(double distance) {
@@ -71,7 +71,6 @@ public class ShootingManager {
         switch (state) {
 
             case IDLE:
-                intakingManager.off();
                 indexer.off();
                 break;
 

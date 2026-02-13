@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.managers;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.systems.Intake;
 import org.firstinspires.ftc.teamcode.global.SystemsConstants;
 
 public class IntakingManager {
-
+    private final ElapsedTime timer = new ElapsedTime();
     private final Intake intake;
 
     private enum State {
@@ -15,12 +17,15 @@ public class IntakingManager {
 
     private State currentState = State.IDLE;
 
+
+
     public IntakingManager(Intake intake) {
         this.intake = intake;
     }
 
     public void togglePull() {
         currentState = (currentState == State.PULL) ? State.IDLE : State.PULL;
+        timer.reset();
     }
 
     public void shoot() {
@@ -45,7 +50,7 @@ public class IntakingManager {
 
             case PULL:
 
-                if (intake.getCurrent() >= SystemsConstants.INTAKE_STALL_CURRENT) {
+                if (intake.getCurrent() >= SystemsConstants.INTAKE_STALL_CURRENT && timer.milliseconds() > 300) {
                     intake.off();
                     currentState = State.IDLE;
                     break;

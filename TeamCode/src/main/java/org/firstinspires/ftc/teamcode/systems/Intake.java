@@ -20,6 +20,9 @@ public class Intake {
     public void pull() {
         intake.setPower(1.0);
     }
+    public boolean isOk(){
+        return intake.isOverCurrent();
+    }
 
     public void push() {
         intake.setPower(-1.0);

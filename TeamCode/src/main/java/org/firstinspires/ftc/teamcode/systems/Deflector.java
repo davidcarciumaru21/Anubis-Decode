@@ -14,4 +14,9 @@ public class Deflector {
     public void move(double pose) {
         deflector.setPosition(pose);
     }
+
+    public void init(double startPose) {
+        deflector.setDirection(Servo.Direction.FORWARD);
+        deflector.setPosition(startPose);
+    }
 }

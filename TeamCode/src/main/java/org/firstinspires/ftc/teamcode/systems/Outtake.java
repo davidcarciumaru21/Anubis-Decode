@@ -17,8 +17,8 @@ public class Outtake {
 
     private static final double TICKS_PER_REV = 28.0;
 
-    public static double kS = 0.92;
-    public static double kV = 0.0021;
+    public static double kS = 2.14;
+    public static double kV = 0.0020;
     public static double kP = 0.23;
     public static double kI = 0;
 
