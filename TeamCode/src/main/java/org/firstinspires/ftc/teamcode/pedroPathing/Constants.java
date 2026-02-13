@@ -24,15 +24,16 @@ public class Constants {
             .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD);
+            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .useBrakeModeInTeleOp(true);
 
     public static ThreeWheelIMUConstants localizerConstants = new ThreeWheelIMUConstants()
             .forwardTicksToInches(-0.0020159185)
             .strafeTicksToInches(-0.0019831135)
             .turnTicksToInches(0.001963445)
-            .leftPodY(4.7244)
-            .rightPodY(-4.7244)
-            .strafePodX(-3.44488)
+            .leftPodY(4.4326377952755905511811023622047)
+            .rightPodY(-4.4326377952755905511811023622047)
+            .strafePodX(-6.1001574803149606299)
             .leftEncoder_HardwareMapName("Intake")
             .rightEncoder_HardwareMapName("BackLeftMotor")
             .strafeEncoder_HardwareMapName("FrontRightMotor")

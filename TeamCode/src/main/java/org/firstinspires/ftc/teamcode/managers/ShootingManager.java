@@ -63,9 +63,10 @@ public class ShootingManager {
         deflector.move(getTargetPose(distance));
     }
 
-    public void update(double distance) {
+    public void update(double distance, double time) {
 
         applyTargets(distance);
+        outtake.update(time);
 
         switch (state) {
 
