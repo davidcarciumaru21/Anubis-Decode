@@ -47,6 +47,9 @@ public class ShootingManager {
         if (state == State.IDLE) {
             state = State.SHOOT;
             timer.reset();
+        } else if (state == State.SHOOT) {
+            state = State.IDLE;
+            timer.reset();
         }
     }
 
@@ -75,14 +78,8 @@ public class ShootingManager {
                 break;
 
             case SHOOT:
-                if (timer.milliseconds() <= threeBallsTimeMs) {
-                    intakingManager.shoot();
-                    indexer.pull();
-                } else {
-                    intakingManager.off();
-                    indexer.off();
-                    state = State.IDLE;
-                }
+                intakingManager.shoot();
+                indexer.pull();
                 break;
         }
     }

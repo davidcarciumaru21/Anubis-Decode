@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.systems.Outtake;
 @TeleOp(name = "CalibrationTeleOp", group = "dev" )
 public class CalibrationTeleOp extends OpMode {
 
+    private boolean indexerActive;
     private Intake intake;
     private Indexer indexer;
     private Deflector deflector;
@@ -93,6 +94,13 @@ public class CalibrationTeleOp extends OpMode {
         if (gamepad1.dpadRightWasPressed()) targetPose += 0.01;
         if (gamepad1.dpadLeftWasPressed()) targetPose -= 0.01;
 
+        if(gamepad1.xWasPressed()) indexerActive = !indexerActive;
+        if(indexerActive){
+            indexer.pull();
+        }
+        else{
+            indexer.off();
+        }
         outtake.move(targetRPM);
         outtake.update(timer.milliseconds());
         intake.pull();
