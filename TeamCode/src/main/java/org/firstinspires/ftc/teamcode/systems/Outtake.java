@@ -49,8 +49,8 @@ public class Outtake {
     }
 
     public void moveBallAtInchesPerSeconds(double speed) {
-        double flywheelRPM =
-                (speed / (2 * Math.PI * 48.0 / 25.4)) * 60.0;
+        double diameterInches = (96.0 / 10.0) / 2.54;
+        double flywheelRPM = (speed * 60.0) / (Math.PI * diameterInches);
 
         targetRPM = flywheelRPM;
     }
