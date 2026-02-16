@@ -52,7 +52,7 @@ public class Outtake {
         double diameterInches = (96.0 / 10.0) / 2.54;
         double flywheelRPM = (speed * 60.0) / (Math.PI * diameterInches);
 
-        targetRPM = flywheelRPM;
+        targetRPM = 1.78571 * flywheelRPM * 1092.85714;
     }
 
     public void moveFlyWheelAtRPM(double rpm) {
