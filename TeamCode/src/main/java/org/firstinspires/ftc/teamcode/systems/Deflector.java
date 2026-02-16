@@ -15,8 +15,20 @@ public class Deflector {
         deflector.setPosition(pose);
     }
 
+    public void moveAtAngleInDegrees(double angle) {
+        deflector.setPosition(-0.033 * angle + 2.15);
+    }
+    public void moveAtAngleInRadians(double angle) {
+        angle = Math.toDegrees(angle);
+        deflector.setPosition(-0.033 * angle + 2.15);
+    }
+
     public void init(double startPose) {
         deflector.setDirection(Servo.Direction.FORWARD);
         deflector.setPosition(startPose);
+    }
+
+    public double getPose() {
+        return deflector.getPosition();
     }
 }

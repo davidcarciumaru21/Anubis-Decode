@@ -92,7 +92,7 @@ public class ManualRobotTeleOp extends OpMode {
         if (gamepad1.dpadRightWasPressed()) pose += 0.01;
         if (gamepad1.dpadLeftWasPressed()) pose -= 0.01;
 
-        outtake.move(rpm);
+        outtake.moveFlyWheelAtRPM(rpm);
         outtake.update(timer.milliseconds());
         deflector.move(pose);
         intake.pull();

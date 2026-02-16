@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.global.AllianceColor;
 import org.firstinspires.ftc.teamcode.global.DrivingType;
 import org.firstinspires.ftc.teamcode.global.Poses;
 import org.firstinspires.ftc.teamcode.managers.IntakingManager;
@@ -16,6 +17,14 @@ import org.firstinspires.ftc.teamcode.systems.Indexer;
 import org.firstinspires.ftc.teamcode.systems.Intake;
 import org.firstinspires.ftc.teamcode.systems.Outtake;
 import org.firstinspires.ftc.teamcode.global.GamepadsSettings;
+import java.io.FileReader;
+import java.io.IOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.File;
+import java.util.Objects;
+
+import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 
 @TeleOp(name = "MainTeleOp", group = "use")
 public class MainTeleOp extends OpMode {
@@ -39,10 +48,28 @@ public class MainTeleOp extends OpMode {
     private double gamepad1Coef = 1.0;
     private double gamepad2Coef = 1.0;
 
+    private String allianceColor;
+
     @Override
     public void init() {
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(new Pose(18.392523364485978, 120, Math.toRadians(-37)));
+
+        File file = AppUtil.getInstance().getSettingsFile("RobotSettings.json");
+
+        try (FileReader reader = new FileReader(file)) {
+            JsonParser parser = new JsonParser();
+            JsonObject json = parser.parse(reader).getAsJsonObject();
+
+            double startPoseX = json.get("x").getAsDouble();
+            double startPoseY = json.get("y").getAsDouble();
+            double startPoseHeading = json.get("heading").getAsDouble();
+            allianceColor = json.get("color").getAsString();
+
+            follower.setStartingPose(new Pose (startPoseX, startPoseY, startPoseHeading));
+        } catch (IOException e) {
+            //follower.setStartingPose(new Pose(18.392523364485978, 120, Math.toRadians(-37)));
+
+        }
         follower.update();
 
         intake = new Intake(hardwareMap);
@@ -135,7 +162,22 @@ public class MainTeleOp extends OpMode {
         if (gamepad1.xWasPressed()) intakingManager.togglePull();
 
         follower.update();
-        shootingManager.update(follower.getPose().distanceFrom(Poses.blueGoalPose), timer.milliseconds());
+        if (allianceColor.equals(AllianceColor.RED.toString())) {
+            shootingManager.update(
+                    follower.getPose().distanceFrom(Poses.redGoalPose),
+                    timer.milliseconds(),
+                    follower.poseTracker.getVelocity(),
+                    Math.atan2((Poses.redGoalPose.getY() - follower.getPose().getY()), (Poses.redGoalPose.getX() - follower.getPose().getX()))
+            );
+        } else if (allianceColor.equals(AllianceColor.BLUE.toString())) {
+            shootingManager.update(
+                    follower.getPose().distanceFrom(Poses.blueGoalPose),
+                    timer.milliseconds(),
+                    follower.poseTracker.getVelocity(),
+                    Math.atan2((Poses.blueGoalPose.getY() - follower.getPose().getY()), (Poses.blueGoalPose.getX() - follower.getPose().getX()))
+            );
+        }
+
         intakingManager.update();
         timer.reset();
     }

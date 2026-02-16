@@ -48,7 +48,14 @@ public class Outtake {
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
     }
 
-    public void move(double rpm) {
+    public void moveBallAtInchesPerSeconds(double speed) {
+        double flywheelRPM =
+                (speed / (2 * Math.PI * 48.0 / 25.4)) * 60.0;
+
+        targetRPM = flywheelRPM;
+    }
+
+    public void moveFlyWheelAtRPM(double rpm) {
         targetRPM = rpm;
     }
 

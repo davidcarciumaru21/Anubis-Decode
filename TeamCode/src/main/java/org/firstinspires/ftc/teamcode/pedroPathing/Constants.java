@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.pedropathing.control.PIDFCoefficients;
+import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -12,7 +14,52 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class Constants {
-    public static FollowerConstants followerConstants = new FollowerConstants();
+    public static FollowerConstants followerConstants = new FollowerConstants()
+            .mass(11)
+            .forwardZeroPowerAcceleration(-40.2098863)
+            .lateralZeroPowerAcceleration(-64.75)
+            .translationalPIDFCoefficients(new PIDFCoefficients(
+                    0.1,
+                    0,
+                    0.001,
+                    0.03
+            ))
+            .useSecondaryDrivePIDF(true)
+            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(
+                    0.15,
+                    0,
+                    0.035,
+                    0.005
+            ))
+            .useSecondaryHeadingPIDF(true)
+            .headingPIDFCoefficients(new PIDFCoefficients(
+                    1,
+                    0,
+                    0.001,
+                    0.03
+            ))
+            .useSecondaryDrivePIDF(true)
+            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(
+                    2,
+                    0,
+                    0.1,
+                    0.005
+            ))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(
+                    0.5,
+                    0,
+                    0.0001,
+                    0.6,
+                    0.03
+            ))
+            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(
+                    0.01,
+                    0,
+                    0.00001,
+                    0.6,
+                    0.005
+            ))
+            .centripetalScaling(0.0005);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
 

@@ -9,8 +9,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.global.DrivingType;
 import org.firstinspires.ftc.teamcode.global.GamepadsSettings;
 import org.firstinspires.ftc.teamcode.global.Poses;
-import org.firstinspires.ftc.teamcode.managers.IntakingManager;
-import org.firstinspires.ftc.teamcode.managers.ShootingManager;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.systems.Deflector;
 import org.firstinspires.ftc.teamcode.systems.Indexer;
@@ -20,7 +18,7 @@ import org.firstinspires.ftc.teamcode.systems.Outtake;
 @TeleOp(name = "CalibrationTeleOp", group = "dev" )
 public class CalibrationTeleOp extends OpMode {
 
-    private boolean indexerActive;
+    private boolean indexerActive = true;
     private Intake intake;
     private Indexer indexer;
     private Deflector deflector;
@@ -101,7 +99,7 @@ public class CalibrationTeleOp extends OpMode {
         else{
             indexer.off();
         }
-        outtake.move(targetRPM);
+        outtake.moveFlyWheelAtRPM(targetRPM);
         outtake.update(timer.milliseconds());
         intake.pull();
         deflector.move(targetPose);

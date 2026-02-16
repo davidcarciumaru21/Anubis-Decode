@@ -1,14 +1,16 @@
 package org.firstinspires.ftc.teamcode.managers;
 
+import com.pedropathing.math.Vector;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.global.ShootingConstants;
 import org.firstinspires.ftc.teamcode.global.SystemsConstants;
 import org.firstinspires.ftc.teamcode.systems.Deflector;
 import org.firstinspires.ftc.teamcode.systems.Indexer;
-import org.firstinspires.ftc.teamcode.systems.Intake;
 import org.firstinspires.ftc.teamcode.systems.Outtake;
 
-import org.firstinspires.ftc.teamcode.global.SystemsConstants;
+import org.firstinspires.ftc.teamcode.utils.MathUtils;
+import org.firstinspires.ftc.teamcode.utils.Pair;
 
 public class ShootingManager {
 
@@ -47,28 +49,84 @@ public class ShootingManager {
         if (state == State.IDLE) {
             state = State.SHOOT;
             timer.reset();
-        } else if (state == State.SHOOT) {
-            state = State.IDLE;
-            timer.reset();
         }
     }
 
-    public double getTargetVelocity(double distance) {
-        return 0.0227722 * Math.pow(distance, 2) + 5.57798 * distance + 2294.11435;
+    public void setIdle() {
+        state = State.IDLE;
     }
 
-    public double getTargetPose(double distance) {
-        return (2.98921 * Math.pow(10, -7)) * Math.pow(distance, 3) - 0.00000316315 * Math.pow(distance, 2) - 0.012683 * distance + 1.20283;
+    public void setShoot() {
+        state = State.SHOOT;
     }
 
-    private void applyTargets(double distance) {
-        outtake.move(getTargetVelocity(distance));
-        deflector.move(getTargetPose(distance));
+    public Pair<Double, Double> getTargetAngleAndVelocity(double distance,
+                                                          Vector velocityVector,
+                                                          double angleToGoal) {
+
+        distance = distance - ShootingConstants.PASS_THROUGH_POINT_RADIUS;
+
+        double initialAngle = MathUtils.clamp(
+                        Math.atan(2 * ShootingConstants.SCORE_HEIGHT / distance - Math.tan(ShootingConstants.SCORE_ANGLE)),
+                        SystemsConstants.MIN_HOOD_ANGLE,
+                        SystemsConstants.MAX_HOOD_ANGLE
+        );
+
+        double initialFlyWheelSpeed = Math.sqrt(
+                (ShootingConstants.g * Math.pow(distance, 2)) /
+                        (2 * Math.pow(Math.cos(initialAngle), 2) *
+                                (distance * Math.tan(initialAngle)
+                                        - ShootingConstants.SCORE_HEIGHT))
+        );
+
+        double tetha = velocityVector.getTheta() - angleToGoal;
+
+        double paralelComponent =
+                -Math.cos(tetha) * velocityVector.getMagnitude();
+
+        double perpendicularComponent =
+                Math.sin(tetha) * velocityVector.getMagnitude();
+
+        double yFlyWheelSpeedComponent =
+                initialFlyWheelSpeed * Math.sin(initialAngle);
+
+        double time =
+                distance / (initialFlyWheelSpeed * Math.cos(initialAngle));
+
+        double xComponentCompensation =
+                distance / time + paralelComponent;
+
+        double newXSpeed = Math.sqrt(
+                Math.pow(xComponentCompensation, 2)
+                        + Math.pow(perpendicularComponent, 2)
+        );
+
+        double newDistance = newXSpeed * time;
+
+        double newAngle = MathUtils.clamp(
+                Math.atan(yFlyWheelSpeedComponent / newXSpeed),
+                SystemsConstants.MIN_HOOD_ANGLE,
+                SystemsConstants.MAX_HOOD_ANGLE
+        );
+
+        double flyWheelSpeed = Math.sqrt(
+                (ShootingConstants.g * Math.pow(newDistance, 2)) /
+                        (2 * Math.pow(Math.cos(newAngle), 2) *
+                                (newDistance * Math.tan(newAngle)
+                                        - ShootingConstants.SCORE_HEIGHT))
+        );
+
+        return new Pair<Double, Double> (newAngle, flyWheelSpeed);
     }
 
-    public void update(double distance, double time) {
+    private void applyTargets(Pair<Double, Double> velocityAndAngle) {
+        deflector.moveAtAngleInRadians(velocityAndAngle.first);
+        outtake.moveBallAtInchesPerSeconds(velocityAndAngle.second);
+    }
 
-        applyTargets(distance);
+    public void update(double distance, double time, Vector velocityVector, double angleToGoal) {
+
+        applyTargets(getTargetAngleAndVelocity(distance, velocityVector, angleToGoal));
         outtake.update(time);
 
         switch (state) {
@@ -78,8 +136,12 @@ public class ShootingManager {
                 break;
 
             case SHOOT:
-                intakingManager.shoot();
-                indexer.pull();
+                if (timer.milliseconds() > threeBallsTimeMs) {
+                    state = State.IDLE;
+                } else {
+                    intakingManager.shoot();
+                    indexer.pull();
+                }
                 break;
         }
     }

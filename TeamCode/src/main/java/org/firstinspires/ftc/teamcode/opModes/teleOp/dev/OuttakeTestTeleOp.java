@@ -44,7 +44,7 @@ public class OuttakeTestTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        outtake.move(TARGET_RPM);
+        outtake.moveFlyWheelAtRPM(TARGET_RPM);
 
         double rpm = outtake.getRPM();
         double power = outtake.getPower();

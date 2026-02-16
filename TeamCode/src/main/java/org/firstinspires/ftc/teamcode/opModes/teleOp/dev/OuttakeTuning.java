@@ -129,7 +129,7 @@ public class OuttakeTuning extends OpMode {
 
         outtake.changePI(kP, kI);
 
-        outtake.move(targetRPM);
+        outtake.moveFlyWheelAtRPM(targetRPM);
         outtake.update(timer.milliseconds());
         timer.reset();
 
