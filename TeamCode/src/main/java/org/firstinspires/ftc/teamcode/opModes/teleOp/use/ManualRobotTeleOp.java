@@ -32,7 +32,7 @@ public class ManualRobotTeleOp extends OpMode {
     private Indexer indexer;
     private Deflector deflector;
 
-    private double rpm = 0.12, pose = 0.0;
+    private double rpm = 0.0, pose = 0.0;
 
     private ElapsedTime timer;
 
@@ -93,7 +93,7 @@ public class ManualRobotTeleOp extends OpMode {
         if (gamepad1.dpadLeftWasPressed()) pose -= 0.01;
 
         outtake.moveFlyWheelAtRPM(rpm);
-        outtake.update(timer.milliseconds());
+        outtake.update(timer.seconds());
         deflector.move(pose);
         intake.pull();
         if (gamepad1.bWasPressed()) indexer.off();

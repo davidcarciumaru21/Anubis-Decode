@@ -165,19 +165,20 @@ public class MainTeleOp extends OpMode {
         if (allianceColor.equals(AllianceColor.RED.toString())) {
             shootingManager.update(
                     follower.getPose().distanceFrom(Poses.redGoalPose),
-                    timer.milliseconds(),
+                    timer.seconds(),
                     follower.poseTracker.getVelocity(),
                     Math.atan2((Poses.redGoalPose.getY() - follower.getPose().getY()), (Poses.redGoalPose.getX() - follower.getPose().getX()))
             );
         } else if (allianceColor.equals(AllianceColor.BLUE.toString())) {
             shootingManager.update(
                     follower.getPose().distanceFrom(Poses.blueGoalPose),
-                    timer.milliseconds(),
+                    timer.seconds(),
                     follower.poseTracker.getVelocity(),
                     Math.atan2((Poses.blueGoalPose.getY() - follower.getPose().getY()), (Poses.blueGoalPose.getX() - follower.getPose().getX()))
             );
         }
-
+        telemetry.addData("target", outtake.getTargetRPM());
+        telemetry.addData("Distance", follower.getPose().distanceFrom(Poses.blueGoalPose));
         intakingManager.update();
         timer.reset();
     }

@@ -100,7 +100,7 @@ public class CalibrationTeleOp extends OpMode {
             indexer.off();
         }
         outtake.moveFlyWheelAtRPM(targetRPM);
-        outtake.update(timer.milliseconds());
+        outtake.update(timer.seconds());
         intake.pull();
         deflector.move(targetPose);
         indexer.pull();

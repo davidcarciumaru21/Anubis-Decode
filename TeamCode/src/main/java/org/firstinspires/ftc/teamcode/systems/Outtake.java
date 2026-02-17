@@ -17,12 +17,12 @@ public class Outtake {
 
     private static final double TICKS_PER_REV = 28.0;
 
-    public static double kS = 2.14;
-    public static double kV = 0.0020;
-    public static double kP = 0.23;
+    public static double kS = 0.67;
+    public static double kV = 0.0021;
+    public static double kP = 0.1;
     public static double kI = 0;
 
-    public static double MAX_ACCEL_RPM_PER_SEC = 3000;
+    public static double MAX_ACCEL_RPM_PER_SEC = 24000;
     public static double I_ENABLE_ERROR = 0;
 
     private double targetRPM = 0;
@@ -52,7 +52,7 @@ public class Outtake {
         double diameterInches = (96.0 / 10.0) / 2.54;
         double flywheelRPM = (speed * 60.0) / (Math.PI * diameterInches);
 
-        targetRPM = 1.78571 * flywheelRPM * 1092.85714;
+        targetRPM = 2.7913 * flywheelRPM - 81.489;
     }
 
     public void moveFlyWheelAtRPM(double rpm) {
@@ -70,6 +70,10 @@ public class Outtake {
         double ticksPerSec1 = outtakeMotor1.getVelocity();
         double ticksPerSec2 = outtakeMotor2.getVelocity();
         return ((ticksPerSec1 + ticksPerSec2) / 2.0 * 60.0) / TICKS_PER_REV;
+    }
+
+    public double getTargetRPM(){
+        return targetRPM;
     }
 
     public double getPower() {

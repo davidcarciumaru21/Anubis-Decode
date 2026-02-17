@@ -131,7 +131,7 @@ public class RedBaseAuto extends OpMode {
         follower.update();
         shootingManager.update(
                 follower.getPose().distanceFrom(Poses.redGoalPose),
-                timer.milliseconds(),
+                timer.seconds(),
                 follower.poseTracker.getVelocity(),
                 Math.atan((Poses.redGoalPose.getX() - follower.getPose().getX()) / (Poses.redGoalPose.getY() - follower.getPose().getY()))
         );

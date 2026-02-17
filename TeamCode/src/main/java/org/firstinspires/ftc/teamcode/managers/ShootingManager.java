@@ -116,7 +116,11 @@ public class ShootingManager {
                                         - ShootingConstants.SCORE_HEIGHT))
         );
 
-        return new Pair<Double, Double> (newAngle, flyWheelSpeed);
+        if (Double.isNaN(newAngle) || Double.isNaN(flyWheelSpeed)) {
+            return new Pair<>(SystemsConstants.MIN_HOOD_ANGLE, 0.0);
+        } else {
+            return new Pair<>(newAngle, flyWheelSpeed);
+        }
     }
 
     private void applyTargets(Pair<Double, Double> velocityAndAngle) {

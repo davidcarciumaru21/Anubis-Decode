@@ -46,7 +46,7 @@ public class OuttakePITuner extends OpMode {
         if (gamepad1.yWasPressed()) target = 3000;
 
         outtake.moveFlyWheelAtRPM(target);
-        outtake.update(timer.milliseconds());
+        outtake.update(timer.seconds());
         timer.reset();
 
         telemetry.addData("kP", kP);

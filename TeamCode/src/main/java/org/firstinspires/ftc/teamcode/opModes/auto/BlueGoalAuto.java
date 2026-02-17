@@ -236,9 +236,9 @@ public class BlueGoalAuto extends OpMode {
         follower.update();
         shootingManager.update(
                 follower.getPose().distanceFrom(Poses.blueGoalPose),
-                timer.milliseconds(),
+                timer.seconds(),
                 follower.poseTracker.getVelocity(),
-                Math.atan((Poses.blueGoalPose.getX() - follower.getPose().getX()) / (Poses.blueGoalPose.getY() - follower.getPose().getY()))
+                Math.atan2((Poses.blueGoalPose.getY() - follower.getPose().getY()), (Poses.blueGoalPose.getX() - follower.getPose().getX()))
         );
         intakingManager.update();
         run();

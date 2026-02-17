@@ -68,7 +68,7 @@ public class OuttakeTestTeleOp extends OpMode {
         telemetry.update();
         panelsTelemetry.update();
 
-        outtake.update(timer.milliseconds());
+        outtake.update(timer.seconds());
         timer.reset();
     }
 
