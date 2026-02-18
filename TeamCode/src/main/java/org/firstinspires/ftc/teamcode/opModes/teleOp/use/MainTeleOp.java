@@ -177,7 +177,7 @@ public class MainTeleOp extends OpMode {
                     Math.atan2((Poses.blueGoalPose.getY() - follower.getPose().getY()), (Poses.blueGoalPose.getX() - follower.getPose().getX()))
             );
         }
-        telemetry.addData("target", outtake.getTargetRPM());
+        telemetry.addData("target", deflector.getTarget());
         telemetry.addData("Distance", follower.getPose().distanceFrom(Poses.blueGoalPose));
         intakingManager.update();
         timer.reset();
