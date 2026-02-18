@@ -19,11 +19,11 @@ public class Deflector {
     }
 
     public void moveAtAngleInDegrees(double angle) {
-        deflector.setPosition(MathUtils.clamp(-0.033 * angle + 2.15, 0.00, 1.00));
+        deflector.setPosition(MathUtils.clamp(0.0355 * angle - 1.25, 0.00, 1.00));
     }
     public void moveAtAngleInRadians(double angle) {
         angle = Math.toDegrees(angle);
-        deflector.setPosition(MathUtils.clamp(-0.033 * angle + 2.15, 0.00, 1.00));
+        deflector.setPosition(MathUtils.clamp(0.0355 * angle +- 1.25, 0.00, 1.00));
     }
 
     public void init(double startPose) {

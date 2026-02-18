@@ -130,7 +130,16 @@ public class ShootingManager {
 
     public void update(double distance, double time, Vector velocityVector, double angleToGoal) {
 
-        applyTargets(getTargetAngleAndVelocity(distance, velocityVector, angleToGoal));
+
+        if(distance < 40){
+            applyTargets(getTargetAngleAndVelocity(40, velocityVector, angleToGoal));
+        }
+        else if(distance > 131){
+            applyTargets(getTargetAngleAndVelocity(131, velocityVector, angleToGoal));
+        }
+        else{
+            applyTargets(getTargetAngleAndVelocity(distance, velocityVector, angleToGoal));
+        }
         outtake.update(time);
 
         switch (state) {

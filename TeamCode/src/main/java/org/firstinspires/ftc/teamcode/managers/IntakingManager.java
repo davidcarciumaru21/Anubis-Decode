@@ -12,7 +12,8 @@ public class IntakingManager {
     private enum State {
         IDLE,
         PULL,
-        SHOOT
+        SHOOT,
+        REVERSE
     }
 
     private State currentState = State.IDLE;
@@ -26,6 +27,10 @@ public class IntakingManager {
     public void togglePull() {
         currentState = (currentState == State.PULL) ? State.IDLE : State.PULL;
         timer.reset();
+    }
+
+    public void reverse(){
+        currentState = State.REVERSE;
     }
 
     public void shoot() {
@@ -61,6 +66,10 @@ public class IntakingManager {
 
             case SHOOT:
                 intake.pull();
+                break;
+
+            case REVERSE:
+                intake.push();
                 break;
         }
     }
