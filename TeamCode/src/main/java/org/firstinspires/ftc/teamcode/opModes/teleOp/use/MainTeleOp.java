@@ -160,6 +160,7 @@ public class MainTeleOp extends OpMode {
 
         if (gamepad1.rightBumperWasPressed()) shootingManager.shoot();
         if (gamepad1.xWasPressed()) intakingManager.togglePull();
+        if (gamepad1.yWasPressed()) intakingManager.reverse();
 
         follower.update();
         if (allianceColor.equals(AllianceColor.RED.toString())) {

@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.utils.MathUtils;
 public class Deflector {
 
     public Servo deflector;
-    public double angle;
 
     public Deflector(HardwareMap hardwareMap) {
         deflector = hardwareMap.get(Servo.class, "Deflector");
@@ -20,17 +19,13 @@ public class Deflector {
     }
 
     public void moveAtAngleInDegrees(double angle) {
-        this.angle = angle;
-        deflector.setPosition(MathUtils.clamp(-0.033 * angle + 2.15, 0.00, 1.00));
+        deflector.setPosition(MathUtils.clamp(0.0355 * angle - 1.25, 0.00, 1.00));
     }
     public void moveAtAngleInRadians(double angle) {
         angle = Math.toDegrees(angle);
-        this.angle = angle;
-        deflector.setPosition(MathUtils.clamp(-0.033 * angle + 2.15, 0.00, 1.00));
+        deflector.setPosition(MathUtils.clamp(0.0355 * angle +- 1.25, 0.00, 1.00));
     }
-    public double getTarget(){
-        return angle;
-    }
+
     public void init(double startPose) {
         deflector.setDirection(Servo.Direction.FORWARD);
         deflector.setPosition(startPose);
