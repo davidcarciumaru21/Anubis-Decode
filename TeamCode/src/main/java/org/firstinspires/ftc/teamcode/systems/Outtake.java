@@ -17,10 +17,10 @@ public class Outtake {
 
     private static final double TICKS_PER_REV = 28.0;
 
-    public static double kS = 0.67;
-    public static double kV = 0.0021;
-    public static double kP = 0.1;
-    public static double kI = 0;
+    public static double kS = 0.9;
+    public static double kV = 0.0023;
+    public static double kP = 0.2;
+    public static double kI = 0.0;
 
     public static double MAX_ACCEL_RPM_PER_SEC = 24000;
     public static double I_ENABLE_ERROR = 0;
@@ -49,10 +49,8 @@ public class Outtake {
     }
 
     public void moveBallAtInchesPerSeconds(double speed) {
-        double diameterInches = (96.0 / 10.0) / 2.54;
-        double flywheelRPM = (speed * 60.0) / (Math.PI * diameterInches);
 
-        targetRPM = 2.7913 * flywheelRPM - 81.489;
+        targetRPM = 2.31174 * Math.pow(speed, 1.30982);
     }
 
     public void moveFlyWheelAtRPM(double rpm) {

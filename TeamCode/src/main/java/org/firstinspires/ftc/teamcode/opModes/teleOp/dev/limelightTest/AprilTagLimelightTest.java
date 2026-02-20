@@ -33,16 +33,14 @@ public class AprilTagLimelightTest  extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("isok", "isok");
-        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        limelight.updateRobotOrientation(orientation.getYaw());
+
         LLResult llResult = limelight.getLatestResult();
         if (llResult != null && llResult.isValid()){
-            Pose3D botpose = llResult.getBotpose();
+            Pose3D botPose = llResult.getBotpose_MT2();
             telemetry.addData("Tx", llResult.getTx());
             telemetry.addData("Ty", llResult.getTy());
             telemetry.addData("Ta", llResult.getTa());
-            telemetry.addData("BotPose", botpose.getOrientation().getYaw());
+            telemetry.addData("BotPose", botPose.toString());
         }
     }
 }

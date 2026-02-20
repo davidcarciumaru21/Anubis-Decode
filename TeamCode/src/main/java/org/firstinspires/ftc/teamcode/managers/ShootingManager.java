@@ -64,19 +64,33 @@ public class ShootingManager {
                                                           Vector velocityVector,
                                                           double angleToGoal) {
 
-        distance = distance - ShootingConstants.PASS_THROUGH_POINT_RADIUS;
+        double height;
+        double angle;
+        double g;
+
+        if (distance < 140) {
+            distance = distance - ShootingConstants.Close.PASS_THROUGH_POINT_RADIUS;
+            height =  ShootingConstants.Close.SCORE_HEIGHT;
+            angle = ShootingConstants.Close.SCORE_ANGLE;
+            g = ShootingConstants.Close.g;
+        } else {
+            distance = distance - ShootingConstants.Far.PASS_THROUGH_POINT_RADIUS;
+            height =  ShootingConstants.Far.SCORE_HEIGHT;
+            angle = ShootingConstants.Far.SCORE_ANGLE;
+            g = ShootingConstants.Far.g;
+        }
 
         double initialAngle = MathUtils.clamp(
-                        Math.atan(2 * ShootingConstants.SCORE_HEIGHT / distance - Math.tan(ShootingConstants.SCORE_ANGLE)),
+                        Math.atan(2 * height / distance - Math.tan(angle)),
                         SystemsConstants.MIN_HOOD_ANGLE,
                         SystemsConstants.MAX_HOOD_ANGLE
         );
 
         double initialFlyWheelSpeed = Math.sqrt(
-                (ShootingConstants.g * Math.pow(distance, 2)) /
+                (g * Math.pow(distance, 2)) /
                         (2 * Math.pow(Math.cos(initialAngle), 2) *
                                 (distance * Math.tan(initialAngle)
-                                        - ShootingConstants.SCORE_HEIGHT))
+                                        - height))
         );
 
         double tetha = velocityVector.getTheta() - angleToGoal;
@@ -110,10 +124,10 @@ public class ShootingManager {
         );
 
         double flyWheelSpeed = Math.sqrt(
-                (ShootingConstants.g * Math.pow(newDistance, 2)) /
+                (g * Math.pow(newDistance, 2)) /
                         (2 * Math.pow(Math.cos(newAngle), 2) *
                                 (newDistance * Math.tan(newAngle)
-                                        - ShootingConstants.SCORE_HEIGHT))
+                                        - height))
         );
 
         if (Double.isNaN(newAngle) || Double.isNaN(flyWheelSpeed)) {
@@ -131,13 +145,9 @@ public class ShootingManager {
     public void update(double distance, double time, Vector velocityVector, double angleToGoal) {
 
 
-        if(distance < 40){
-            applyTargets(getTargetAngleAndVelocity(40, velocityVector, angleToGoal));
-        }
-        else if(distance > 131){
-            applyTargets(getTargetAngleAndVelocity(131, velocityVector, angleToGoal));
-        }
-        else{
+        if(distance < 30){
+            applyTargets(getTargetAngleAndVelocity(30, velocityVector, angleToGoal));
+        } else {
             applyTargets(getTargetAngleAndVelocity(distance, velocityVector, angleToGoal));
         }
         outtake.update(time);

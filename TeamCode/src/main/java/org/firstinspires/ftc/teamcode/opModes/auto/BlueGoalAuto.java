@@ -221,7 +221,7 @@ public class BlueGoalAuto extends OpMode {
             case SHOOT_PRELOAD:
                 if (!follower.isBusy()) {
                     shootingManager.shoot();
-                    setPathState(States.SHOOT_PRELAOD_TO_INTAKE_LINE1);
+                    setPathState(States.END);
                 }
                 break;
 

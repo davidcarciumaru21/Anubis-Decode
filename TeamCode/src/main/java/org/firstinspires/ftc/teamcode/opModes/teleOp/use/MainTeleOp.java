@@ -9,12 +9,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.global.AllianceColor;
 import org.firstinspires.ftc.teamcode.global.DrivingType;
 import org.firstinspires.ftc.teamcode.global.Poses;
+import org.firstinspires.ftc.teamcode.global.ShootingConstants;
 import org.firstinspires.ftc.teamcode.managers.IntakingManager;
 import org.firstinspires.ftc.teamcode.managers.ShootingManager;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.systems.Deflector;
 import org.firstinspires.ftc.teamcode.systems.Indexer;
 import org.firstinspires.ftc.teamcode.systems.Intake;
+import org.firstinspires.ftc.teamcode.systems.Limelight;
 import org.firstinspires.ftc.teamcode.systems.Outtake;
 import org.firstinspires.ftc.teamcode.global.GamepadsSettings;
 import java.io.FileReader;
@@ -33,6 +35,7 @@ public class MainTeleOp extends OpMode {
     private Indexer indexer;
     private Deflector deflector;
     private Outtake outtake;
+    private Limelight limelight;
 
     private IntakingManager intakingManager;
     private ShootingManager shootingManager;
@@ -41,6 +44,7 @@ public class MainTeleOp extends OpMode {
     private Follower follower;
 
     private double forward = 0.0, strafe = 0.0, rotation = 0.0;
+    private boolean turretAim = false;
 
     private boolean gamepad1IsActive = false;
     private DrivingType drivingTypeGm1 = DrivingType.ROBOT_CENTRIC;
@@ -76,6 +80,7 @@ public class MainTeleOp extends OpMode {
         indexer = new Indexer(hardwareMap);
         deflector = new Deflector(hardwareMap);
         outtake = new Outtake(hardwareMap);
+        limelight = new Limelight(hardwareMap);
 
         intakingManager = new IntakingManager(intake);
         shootingManager = new ShootingManager(outtake, indexer, deflector, intakingManager);
@@ -121,6 +126,48 @@ public class MainTeleOp extends OpMode {
             strafe = -gamepad1.left_stick_x * gamepad1Coef;
             rotation = -gamepad1.right_stick_x * gamepad1Coef;
 
+            double odoError;
+            {
+                double dx = Poses.blueGoalPose.getX() - follower.getPose().getX();
+                double dy = Poses.blueGoalPose.getY() - follower.getPose().getY();
+
+                double baseHeading = Math.toRadians(90) - Math.atan2(dx, dy);
+                double targetHeading = baseHeading + Math.PI;
+
+                double currentHeading = follower.getPose().getHeading();
+                odoError = targetHeading - currentHeading;
+
+                while (odoError > Math.PI)  odoError -= 2 * Math.PI;
+                while (odoError < -Math.PI) odoError += 2 * Math.PI;
+            }
+
+            if (turretAim) {
+                telemetry.addData("asd", limelight.getYaw());
+
+                double camAngle = limelight.getYaw();
+
+
+                if (camAngle != 0) {
+                    telemetry.addData("Robot Turret-Aiming By: ", "Webcam");
+
+                    double error = Math.toRadians(camAngle);
+                    while (error > Math.PI)  error -= 2 * Math.PI;
+                    while (error < -Math.PI) error += 2 * Math.PI;
+
+                    rotation = error / Math.PI;
+                } else {
+                    telemetry.addData("Robot Turret-Aiming By: ", "Odometry + Search");
+
+                    // Normal odometry correction
+                    rotation = odoError / Math.PI;
+
+                    // If we're close to aligned but still no tag, slowly sweep
+                    if (Math.abs(odoError) < Math.toRadians(3)) {
+                        rotation += 0.1 * Math.signum(odoError == 0 ? 1 : odoError);
+                    }
+                }
+            }
+
             if (drivingTypeGm1 == DrivingType.ROBOT_CENTRIC) {
                 follower.setTeleOpDrive(
                         forward,
@@ -161,6 +208,9 @@ public class MainTeleOp extends OpMode {
         if (gamepad1.rightBumperWasPressed()) shootingManager.shoot();
         if (gamepad1.xWasPressed()) intakingManager.togglePull();
         if (gamepad1.yWasPressed()) intakingManager.reverse();
+        if (gamepad1.aWasPressed()) {
+            turretAim = !turretAim;
+        }
 
         follower.update();
         if (allianceColor.equals(AllianceColor.RED.toString())) {
@@ -178,10 +228,12 @@ public class MainTeleOp extends OpMode {
                     Math.atan2((Poses.blueGoalPose.getY() - follower.getPose().getY()), (Poses.blueGoalPose.getX() - follower.getPose().getX()))
             );
         }
-        telemetry.addData("target", deflector.getTarget());
+        telemetry.addData("speed", outtake.getRPM());
+        telemetry.addData("target", outtake.getTargetRPM());
         telemetry.addData("Distance", follower.getPose().distanceFrom(Poses.blueGoalPose));
         intakingManager.update();
         timer.reset();
+        telemetry.update();
     }
 
     @Override
