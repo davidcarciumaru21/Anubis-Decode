@@ -8,6 +8,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 public class Limelight {
     private Limelight3A limelight;
+    private double lastTxAngle;
+    private double lastTaAngle;
+    private boolean hasTarget;
 
     public Limelight(HardwareMap hardwareMap){
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
@@ -17,10 +20,31 @@ public class Limelight {
 
     public double getYaw(){
         LLResult llResult = limelight.getLatestResult();
+
+
         if (llResult != null && llResult.isValid()){
-            Pose3D botPose = llResult.getBotpose_MT2();
-            return llResult.getTx();
+            lastTxAngle = llResult.getTx();
+            hasTarget = true;
+        } else {
+            hasTarget = false;
         }
-        return 1;
+
+        return lastTxAngle;
+    }
+
+    public double getTargetArea(){
+        LLResult llResult = limelight.getLatestResult();
+
+
+        if (llResult != null && llResult.isValid()){
+            lastTaAngle = llResult.getTa();
+        } else {
+        }
+
+        return lastTaAngle;
+    }
+
+    public boolean hasTarget(){
+        return hasTarget;
     }
 }
