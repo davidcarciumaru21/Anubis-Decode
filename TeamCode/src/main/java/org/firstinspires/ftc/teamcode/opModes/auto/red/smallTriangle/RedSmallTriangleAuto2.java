@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opModes.auto.blue.smallTriangle;
+package org.firstinspires.ftc.teamcode.opModes.auto.red.smallTriangle;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -25,9 +25,10 @@ import java.io.File;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import static org.firstinspires.ftc.teamcode.utils.AutoUtils.mirrorHeading;
 
-@Autonomous(name = "BlueSmallTriangleAuto2", group = "Blue")
-public class BlueSmallTriangleAuto2 extends OpMode {
+@Autonomous(name = "RedSmallTriangleAuto2", group = "Red")
+public class RedSmallTriangleAuto2 extends OpMode {
 
     private enum States {
         START_TO_SHOOT_PRELOAD,
@@ -82,101 +83,101 @@ public class BlueSmallTriangleAuto2 extends OpMode {
         public Paths(Follower follower) {
             Path1 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(64.374, 9.645),
+                                    new Pose(64.374, 9.645).mirror(),
 
-                                    new Pose(57.869, 23.869)
+                                    new Pose(57.869, 23.869).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(118))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(90)), Math.toRadians(mirrorHeading(118)))
 
                     .build();
 
             Path2 = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(57.869, 23.869),
-                                    new Pose(51.925, 35.841),
-                                    new Pose(45.084, 35.664)
+                                    new Pose(57.869, 23.869).mirror(),
+                                    new Pose(51.925, 35.841).mirror(),
+                                    new Pose(45.084, 35.664).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(118), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(118)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
             Path3 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(45.084, 35.664),
+                                    new Pose(45.084, 35.664).mirror(),
 
-                                    new Pose(10.056, 35.888)
+                                    new Pose(10.056, 35.888).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
             Path4 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(10.056, 35.888),
+                                    new Pose(10.056, 35.888).mirror(),
 
-                                    new Pose(57.869, 23.869)
+                                    new Pose(57.869, 23.869).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(118))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(118)))
 
                     .build();
 
             Path5 = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(57.869, 23.869),
-                                    new Pose(16.692, 64.607),
-                                    new Pose(8.075, 26.374)
+                                    new Pose(57.869, 23.869).mirror(),
+                                    new Pose(16.692, 64.607).mirror(),
+                                    new Pose(8.075, 26.374).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(118), Math.toRadians(270))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(118)), Math.toRadians(mirrorHeading(270)))
 
                     .build();
 
             Path6 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(8.075, 26.374),
+                                    new Pose(8.075, 26.374).mirror(),
 
-                                    new Pose(7.963, 10.841)
+                                    new Pose(7.963, 10.841).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(270))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(270)))
 
                     .build();
 
             Path7 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(7.963, 10.841),
+                                    new Pose(7.963, 10.841).mirror(),
 
-                                    new Pose(58.028, 23.682)
+                                    new Pose(58.028, 23.682).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(118))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(118)))
 
                     .build();
 
             Path8 = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(58.028, 23.682),
-                                    new Pose(16.692, 64.607),
-                                    new Pose(8.075, 26.374)
+                                    new Pose(58.028, 23.682).mirror(),
+                                    new Pose(16.692, 64.607).mirror(),
+                                    new Pose(8.075, 26.374).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(118), Math.toRadians(270))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(118)), Math.toRadians(mirrorHeading(270)))
 
                     .build();
 
             Path9 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(8.075, 26.374),
+                                    new Pose(8.075, 26.374).mirror(),
 
-                                    new Pose(7.963, 10.841)
+                                    new Pose(7.963, 10.841).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(270))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(270)))
 
                     .build();
 
             Path10 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(7.963, 10.841),
+                                    new Pose(7.963, 10.841).mirror(),
 
-                                    new Pose(58.028, 23.682)
+                                    new Pose(58.028, 23.682).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(118))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(118)))
 
                     .build();
         }
@@ -304,7 +305,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
                         64.374,
                         9.645,
                         Math.toRadians(90)
-                )
+                ).mirror()
         );
         timer = new ElapsedTime();
         secondTimer = new ElapsedTime();

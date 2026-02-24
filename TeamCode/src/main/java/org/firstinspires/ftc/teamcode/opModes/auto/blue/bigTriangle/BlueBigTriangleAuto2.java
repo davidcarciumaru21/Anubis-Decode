@@ -26,7 +26,7 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-@Autonomous(name = "BigTriangleAuto2", group = "Blue")
+@Autonomous(name = "BlueBigTriangleAuto2", group = "Blue")
 public class BlueBigTriangleAuto2 extends OpMode {
 
     private enum States {
@@ -67,7 +67,6 @@ public class BlueBigTriangleAuto2 extends OpMode {
     private JsonObject json;
     private Gson gson;
     private File file;
-
 
     public static class Paths {
         public PathChain Path1;
