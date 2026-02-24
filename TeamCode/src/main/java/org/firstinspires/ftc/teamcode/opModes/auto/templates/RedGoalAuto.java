@@ -1,9 +1,6 @@
-package org.firstinspires.ftc.teamcode.opModes.auto;
-
-import android.graphics.Paint;
+package org.firstinspires.ftc.teamcode.opModes.auto.templates;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.pedropathing.follower.Follower;
@@ -28,7 +25,6 @@ import java.io.File;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 
 @Autonomous(name = "RedGoalAuto", group = "Blue")
 public class RedGoalAuto extends OpMode {

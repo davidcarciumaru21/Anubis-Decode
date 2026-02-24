@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opModes.teleOp.dev;
+package org.firstinspires.ftc.teamcode.opModes.teleOp.dev.shootingTests;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;

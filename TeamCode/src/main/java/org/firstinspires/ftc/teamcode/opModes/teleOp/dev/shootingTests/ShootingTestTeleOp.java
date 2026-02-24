@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opModes.teleOp.dev;
+package org.firstinspires.ftc.teamcode.opModes.teleOp.dev.shootingTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.systems.Indexer;
 import org.firstinspires.ftc.teamcode.systems.Intake;
 import org.firstinspires.ftc.teamcode.systems.Outtake;
 
-@TeleOp(name = "FlyWheelTestTeleOp", group = "Dev")
-public class FlyWheelTestTeleOp extends OpMode {
+@TeleOp(name = "ShootingTestTeleOp", group = "Dev")
+public class ShootingTestTeleOp extends OpMode {
 
     private Outtake outtake;
     private Deflector deflector;
@@ -19,7 +19,7 @@ public class FlyWheelTestTeleOp extends OpMode {
 
     private ElapsedTime timer;
 
-    private double rpm = 0, angle = 40;
+    private double rpm = 0, pose = 0.12;
 
     @Override
     public void init() {
@@ -36,18 +36,18 @@ public class FlyWheelTestTeleOp extends OpMode {
         if (gamepad1.dpadUpWasPressed()) rpm += 50;
         if (gamepad1.dpadDownWasPressed()) rpm -= 50;
 
-        if (gamepad1.dpadRightWasPressed()) angle += 1;
-        if (gamepad1.dpadLeftWasPressed()) angle -= 1;
+        if (gamepad1.dpadRightWasPressed()) pose += 0.01;
+        if (gamepad1.dpadLeftWasPressed()) pose -= 0.01;
 
         outtake.moveFlyWheelAtRPM(rpm);
         outtake.update(timer.seconds());
-        deflector.moveAtAngleInDegrees(angle);
+        deflector.move(pose);
         intake.pull();
         if (gamepad1.bWasPressed()) indexer.off();
         if (gamepad1.aWasPressed()) indexer.pull();
         timer.reset();
 
         telemetry.addData("rpm", rpm);
-        telemetry.addData("pose", angle);
+        telemetry.addData("pose", pose);
     }
 }

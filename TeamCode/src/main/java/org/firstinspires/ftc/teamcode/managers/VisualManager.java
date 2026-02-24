@@ -41,7 +41,7 @@ public class VisualManager {
 
         } else {
 
-            return 0;  // STOP if no target
+            return 0;
         }
     }
 }

@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.opModes.auto;
+package org.firstinspires.ftc.teamcode.opModes.auto.red.bigTriangle;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.pedropathing.follower.Follower;
@@ -27,29 +26,24 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-@Autonomous(name = "BlueGoalAuto", group = "Blue")
-public class BlueGoalAuto extends OpMode {
+import org.firstinspires.ftc.teamcode.utils.AutoUtils;
+import static org.firstinspires.ftc.teamcode.utils.AutoUtils.mirrorHeading;
+
+@Autonomous(name = "RedTriangleAuto1", group = "Red")
+public class RedBigTriangleAuto1 extends OpMode {
 
     private enum States {
         START_TO_SHOOT_PRELOAD,
-        FIRST_WAIT,
         SHOOT_PRELOAD,
-        SHOOT_PRELAOD_TO_INTAKE_LINE1,
+        SHOOT_PRELOAD_TO_INTAKE_LINE1,
         INTAKE_LINE1_TO_FINISHED_INTAKE_LINE1,
-        FINISHED_INTAKE_LINE1_TO_OPEN_GATE,
+        FINISHED_INTAKED_LINE1_TO_OPEN_GATE,
         OPEN_GATE_TO_SHOOT_LINE1,
-        SECOND_WAIT,
         SHOOT_LINE1,
         SHOOT_LINE1_TO_INTAKE_LINE2,
         INTAKE_LINE2_TO_FINISHED_INTAKE_LINE2,
         FINISHED_INTAKE_LINE2_TO_SHOOT_LINE2,
-        THIRD_WAIT,
         SHOOT_LINE2,
-        SHOOT_LINE2_TO_INTAKE_LINE3,
-        INTAKE_LINE3_TO_FINISHED_INTAKE_LINE3,
-        FINISHED_INTAKE_LINE3_TO_SHOOT_LINE3,
-        FOURTH_WAIT,
-        SHOOT_LINE3,
         END
     }
 
@@ -82,118 +76,85 @@ public class BlueGoalAuto extends OpMode {
         public PathChain Path6;
         public PathChain Path7;
         public PathChain Path8;
-        public PathChain Path9;
-        public PathChain Path10;
-        public PathChain Path11;
 
         public Paths(Follower follower) {
             Path1 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(18.393, 120.000),
+                                    new Pose(20.336, 122.617).mirror(),
 
-                                    new Pose(48.374, 95.215)
+                                    new Pose(47.477, 95.664).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(-37), Math.toRadians(137))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(-36)), Math.toRadians(mirrorHeading(130)))
 
                     .build();
 
             Path2 = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(48.374, 95.215),
-                                    new Pose(63.294, 83.500),
-                                    new Pose(45.092, 84.495)
+                                    new Pose(47.477, 95.664).mirror(),
+                                    new Pose(63.182, 83.065).mirror(),
+                                    new Pose(42.626, 83.963).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(137), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(130)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
             Path3 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(45.092, 84.495),
+                                    new Pose(42.626, 83.963).mirror(),
 
-                                    new Pose(15.205, 84.037)
+                                    new Pose(16.748, 83.692).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
             Path4 = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(15.205, 84.037),
-                                    new Pose(31.907, 69.243),
-                                    new Pose(12.925, 80.280)
+                                    new Pose(16.748, 83.692).mirror(),
+                                    new Pose(33.304, 68.336).mirror(),
+                                    new Pose(16.589, 70.234).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(90)))
 
                     .build();
 
             Path5 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(12.925, 80.280),
+                                    new Pose(16.589, 70.234).mirror(),
 
-                                    new Pose(48.271, 94.589)
+                                    new Pose(47.477, 95.664).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(137))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(90)), Math.toRadians(mirrorHeading(130)))
 
                     .build();
 
             Path6 = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(48.271, 94.589),
-                                    new Pose(61.874, 61.528),
-                                    new Pose(40.897, 60.598)
+                                    new Pose(47.477, 95.664).mirror(),
+                                    new Pose(49.201, 58.192).mirror(),
+                                    new Pose(42.626, 59.710).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(137), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(130)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
             Path7 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(40.897, 60.598),
+                                    new Pose(42.626, 59.710).mirror(),
 
-                                    new Pose(6.907, 60.103)
+                                    new Pose(9.794, 59.682).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
             Path8 = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(6.907, 60.103),
-                                    new Pose(34.388, 45.678),
-                                    new Pose(48.692, 94.879)
+                                    new Pose(9.794, 59.682).mirror(),
+                                    new Pose(51.439, 57.243).mirror(),
+                                    new Pose(47.477, 95.664).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(137))
-
-                    .build();
-
-            Path9 = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(48.692, 94.879),
-                                    new Pose(58.593, 34.533),
-                                    new Pose(41.822, 36.336)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(137), Math.toRadians(180))
-
-                    .build();
-
-            Path10 = follower.pathBuilder().addPath(
-                            new BezierLine(
-                                    new Pose(41.822, 36.336),
-
-                                    new Pose(6.944, 35.542)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
-
-                    .build();
-
-            Path11 = follower.pathBuilder().addPath(
-                            new BezierLine(
-                                    new Pose(6.944, 35.542),
-
-                                    new Pose(48.449, 94.879)
-                            )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(137))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(130)))
 
                     .build();
         }
@@ -206,16 +167,9 @@ public class BlueGoalAuto extends OpMode {
 
     private void run() {
         switch (state) {
-
             case START_TO_SHOOT_PRELOAD:
                 follower.followPath(paths.Path1);
-                setPathState(States.FIRST_WAIT);
-                break;
-
-            case FIRST_WAIT:
-                if (secondTimer.milliseconds() > 800); {
-                    setPathState(States.SHOOT_PRELOAD);
-                }
+                setPathState(States.SHOOT_PRELOAD);
                 break;
 
             case SHOOT_PRELOAD:
@@ -225,8 +179,8 @@ public class BlueGoalAuto extends OpMode {
                 }
                 break;
 
-            case SHOOT_PRELAOD_TO_INTAKE_LINE1:
-                if (!follower.isBusy() && !shootingManager.isBusy()) {
+            case SHOOT_PRELOAD_TO_INTAKE_LINE1:
+                if (!shootingManager.isBusy()) {
                     follower.followPath(paths.Path2);
                     setPathState(States.INTAKE_LINE1_TO_FINISHED_INTAKE_LINE1);
                 }
@@ -235,15 +189,15 @@ public class BlueGoalAuto extends OpMode {
             case INTAKE_LINE1_TO_FINISHED_INTAKE_LINE1:
                 if (!follower.isBusy()) {
                     intakingManager.togglePull();
-                    follower.followPath(paths.Path3, 0.5, true);
-                    setPathState(States.FINISHED_INTAKE_LINE1_TO_OPEN_GATE);
+                    follower.followPath(paths.Path3, 0.4, false);
+                    setPathState(States.FINISHED_INTAKED_LINE1_TO_OPEN_GATE);
                 }
                 break;
 
-            case FINISHED_INTAKE_LINE1_TO_OPEN_GATE:
+            case FINISHED_INTAKED_LINE1_TO_OPEN_GATE:
                 if (!follower.isBusy()) {
                     intakingManager.togglePull();
-                    follower.followPath(paths.Path4, 0.8, false);
+                    follower.followPath(paths.Path4, 0.4, false);
                     setPathState(States.OPEN_GATE_TO_SHOOT_LINE1);
                 }
                 break;
@@ -251,15 +205,8 @@ public class BlueGoalAuto extends OpMode {
             case OPEN_GATE_TO_SHOOT_LINE1:
                 if (!follower.isBusy()) {
                     follower.followPath(paths.Path5);
-                    setPathState(States.SECOND_WAIT);
-                }
-                break;
-
-            case SECOND_WAIT:
-                if (secondTimer.milliseconds() > 1500); {
                     setPathState(States.SHOOT_LINE1);
                 }
-                break;
 
             case SHOOT_LINE1:
                 if (!follower.isBusy()) {
@@ -269,7 +216,7 @@ public class BlueGoalAuto extends OpMode {
                 break;
 
             case SHOOT_LINE1_TO_INTAKE_LINE2:
-                if (!follower.isBusy() && !shootingManager.isBusy()) {
+                if (!shootingManager.isBusy()) {
                     follower.followPath(paths.Path6);
                     setPathState(States.INTAKE_LINE2_TO_FINISHED_INTAKE_LINE2);
                 }
@@ -278,62 +225,19 @@ public class BlueGoalAuto extends OpMode {
             case INTAKE_LINE2_TO_FINISHED_INTAKE_LINE2:
                 if (!follower.isBusy()) {
                     intakingManager.togglePull();
-                    follower.followPath(paths.Path7, 0.5, true);
+                    follower.followPath(paths.Path7, 0.4, false);
                     setPathState(States.FINISHED_INTAKE_LINE2_TO_SHOOT_LINE2);
                 }
-                break;
 
             case FINISHED_INTAKE_LINE2_TO_SHOOT_LINE2:
                 if (!follower.isBusy()) {
                     intakingManager.togglePull();
                     follower.followPath(paths.Path8);
-                    setPathState(States.THIRD_WAIT);
-                }
-                break;
-
-            case THIRD_WAIT:
-                if (secondTimer.milliseconds() > 1000); {
                     setPathState(States.SHOOT_LINE2);
                 }
                 break;
 
             case SHOOT_LINE2:
-                if (!follower.isBusy()) {
-                    shootingManager.shoot();
-                    setPathState(States.SHOOT_LINE2_TO_INTAKE_LINE3);
-                }
-                break;
-
-            case SHOOT_LINE2_TO_INTAKE_LINE3:
-                if (!follower.isBusy() && !shootingManager.isBusy()) {
-                    follower.followPath(paths.Path9);
-                    setPathState(States.INTAKE_LINE3_TO_FINISHED_INTAKE_LINE3);
-                }
-                break;
-
-            case INTAKE_LINE3_TO_FINISHED_INTAKE_LINE3:
-                if (!follower.isBusy()) {
-                    intakingManager.togglePull();
-                    follower.followPath(paths.Path10, 0.5, true);
-                    setPathState(States.FINISHED_INTAKE_LINE3_TO_SHOOT_LINE3);
-                }
-                break;
-
-            case FINISHED_INTAKE_LINE3_TO_SHOOT_LINE3:
-                if (!follower.isBusy()) {
-                    intakingManager.togglePull();
-                    follower.followPath(paths.Path11);
-                    setPathState(States.SHOOT_LINE3);
-                }
-                break;
-
-            case FOURTH_WAIT:
-                if (secondTimer.milliseconds() > 800); {
-                    setPathState(States.SHOOT_LINE3);
-                }
-                break;
-
-            case SHOOT_LINE3:
                 if (!follower.isBusy()) {
                     shootingManager.shoot();
                     setPathState(States.END);
@@ -350,10 +254,10 @@ public class BlueGoalAuto extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(
                 new Pose(
-                        18.392523364485978,
-                        120,
-                        Math.toRadians(-37)
-                )
+                        20.336,
+                        122.617,
+                        Math.toRadians(-36)
+                ).mirror()
         );
         timer = new ElapsedTime();
         secondTimer = new ElapsedTime();
