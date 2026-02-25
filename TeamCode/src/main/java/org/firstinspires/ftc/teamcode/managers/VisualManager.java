@@ -29,13 +29,13 @@ public class VisualManager {
         if (limelight.hasTarget()) {
 
             double error = limelight.getYaw();
-            double kP = 0.015;   // tune this
+            double kP = 0.02;   // tune this
             double dt = currentTime - lastTime;
             if (dt > 0) {
                 derivative = (error - lastError) / dt;
             }
 
-            double kD = 0.0001;
+            double kD = 0.00001;
 
             return -(kP * error + kD * derivative);
 
