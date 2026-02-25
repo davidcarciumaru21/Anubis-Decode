@@ -88,17 +88,17 @@ public class BlueBigTriangleAuto2 extends OpMode {
 
                                     new Pose(47.477, 95.664)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(-36), Math.toRadians(130))
+                    ).setLinearHeadingInterpolation(Math.toRadians(-36), Math.toRadians(131))
 
                     .build();
 
             Path2 = follower.pathBuilder().addPath(
                             new BezierCurve(
                                     new Pose(47.477, 95.664),
-                                    new Pose(63.855, 82.393),
+                                    new Pose(63.182, 83.065),
                                     new Pose(42.626, 83.963)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(131), Math.toRadians(180))
 
                     .build();
 
@@ -115,8 +115,8 @@ public class BlueBigTriangleAuto2 extends OpMode {
             Path4 = follower.pathBuilder().addPath(
                             new BezierCurve(
                                     new Pose(16.748, 83.692),
-                                    new Pose(33.304, 68.336),
-                                    new Pose(16.589, 70.234)
+                                    new Pose(32.855, 75.963),
+                                    new Pose(17.196, 76.963)
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
 
@@ -124,11 +124,11 @@ public class BlueBigTriangleAuto2 extends OpMode {
 
             Path5 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(16.589, 70.234),
+                                    new Pose(17.196, 76.963),
 
                                     new Pose(47.477, 95.664)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(130))
+                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(131))
 
                     .build();
 
@@ -138,7 +138,7 @@ public class BlueBigTriangleAuto2 extends OpMode {
                                     new Pose(49.201, 58.192),
                                     new Pose(42.626, 59.710)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(131), Math.toRadians(180))
 
                     .build();
 
@@ -156,39 +156,39 @@ public class BlueBigTriangleAuto2 extends OpMode {
                             new BezierCurve(
                                     new Pose(9.794, 59.682),
                                     new Pose(51.439, 57.243),
-                                    new Pose(47.477, 95.664)
+                                    new Pose(59.140, 84.224)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
 
                     .build();
 
             Path9 = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(47.477, 95.664),
-                                    new Pose(49.537, 32.220),
-                                    new Pose(42.626, 35.860)
+                                    new Pose(59.140, 84.224),
+                                    new Pose(61.093, 33.159),
+                                    new Pose(42.626, 35.888)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
 
                     .build();
 
             Path10 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(42.626, 35.860),
+                                    new Pose(42.626, 35.888),
 
-                                    new Pose(9.794, 35.290)
+                                    new Pose(9.794, 35.888)
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
 
                     .build();
 
             Path11 = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(9.794, 35.290),
-                                    new Pose(50.944, 30.794),
-                                    new Pose(47.477, 95.664)
+                            new BezierLine(
+                                    new Pose(9.794, 35.888),
+
+                                    new Pose(59.140, 84.224)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
 
                     .build();
         }
@@ -209,7 +209,7 @@ public class BlueBigTriangleAuto2 extends OpMode {
             case SHOOT_PRELOAD:
                 if (!follower.isBusy()) {
                     shootingManager.shoot();
-                    setPathState(States.END);
+                    setPathState(States.SHOOT_PRELOAD_TO_INTAKE_LINE1);
                 }
                 break;
 
@@ -223,7 +223,7 @@ public class BlueBigTriangleAuto2 extends OpMode {
             case INTAKE_LINE1_TO_FINISHED_INTAKE_LINE1:
                 if (!follower.isBusy()) {
                     intakingManager.togglePull();
-                    follower.followPath(paths.Path3, 0.4, false);
+                    follower.followPath(paths.Path3, 0.7, false);
                     setPathState(States.FINISHED_INTAKED_LINE1_TO_OPEN_GATE);
                 }
                 break;

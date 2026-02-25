@@ -66,7 +66,6 @@ public class RedBigTriangleAuto1 extends OpMode {
     private JsonObject json;
     private Gson gson;
     private File file;
-
     public static class Paths {
         public PathChain Path1;
         public PathChain Path2;
@@ -84,7 +83,7 @@ public class RedBigTriangleAuto1 extends OpMode {
 
                                     new Pose(47.477, 95.664).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(-36)), Math.toRadians(mirrorHeading(130)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(-36)), Math.toRadians(mirrorHeading(131)))
 
                     .build();
 
@@ -94,7 +93,7 @@ public class RedBigTriangleAuto1 extends OpMode {
                                     new Pose(63.182, 83.065).mirror(),
                                     new Pose(42.626, 83.963).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(130)), Math.toRadians(mirrorHeading(180)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(131)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
@@ -111,8 +110,8 @@ public class RedBigTriangleAuto1 extends OpMode {
             Path4 = follower.pathBuilder().addPath(
                             new BezierCurve(
                                     new Pose(16.748, 83.692).mirror(),
-                                    new Pose(33.304, 68.336).mirror(),
-                                    new Pose(16.589, 70.234).mirror()
+                                    new Pose(32.855, 75.963).mirror(),
+                                    new Pose(17.196, 76.963).mirror()
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(90)))
 
@@ -120,11 +119,11 @@ public class RedBigTriangleAuto1 extends OpMode {
 
             Path5 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(16.589, 70.234).mirror(),
+                                    new Pose(17.196, 76.963).mirror(),
 
                                     new Pose(47.477, 95.664).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(90)), Math.toRadians(mirrorHeading(130)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(90)), Math.toRadians(mirrorHeading(131)))
 
                     .build();
 
@@ -134,7 +133,7 @@ public class RedBigTriangleAuto1 extends OpMode {
                                     new Pose(49.201, 58.192).mirror(),
                                     new Pose(42.626, 59.710).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(130)), Math.toRadians(mirrorHeading(180)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(131)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
@@ -152,9 +151,9 @@ public class RedBigTriangleAuto1 extends OpMode {
                             new BezierCurve(
                                     new Pose(9.794, 59.682).mirror(),
                                     new Pose(51.439, 57.243).mirror(),
-                                    new Pose(47.477, 95.664).mirror()
+                                    new Pose(59.140, 84.224).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(130)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(131)))
 
                     .build();
         }
@@ -175,7 +174,7 @@ public class RedBigTriangleAuto1 extends OpMode {
             case SHOOT_PRELOAD:
                 if (!follower.isBusy()) {
                     shootingManager.shoot();
-                    setPathState(States.END);
+                    setPathState(States.SHOOT_PRELOAD_TO_INTAKE_LINE1);
                 }
                 break;
 
