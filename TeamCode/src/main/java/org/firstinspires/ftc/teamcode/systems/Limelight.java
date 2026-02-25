@@ -40,7 +40,7 @@ public class Limelight {
 
         if (llResult != null && llResult.isValid()){
             Pose3D botPose = llResult.getBotpose();
-            if(Math.abs(lastY - (botPose.getPosition().x + 1.8)) < 5) {
+            if(Math.abs(lastX - (botPose.getPosition().x + 1.8)) < 5) {
                 lastX = botPose.getPosition().x + 1.8;
             }
             hasTarget = true;
@@ -74,7 +74,7 @@ public class Limelight {
 
         if (llResult != null && llResult.isValid()){
             Pose3D botPose = llResult.getBotpose();
-            if(Math.abs(lastY - botPose.getOrientation().getYaw()) < 5) {
+            if(Math.abs(lastHeading - botPose.getOrientation().getYaw()) < 5) {
                 lastHeading = botPose.getOrientation().getYaw();
             }
             hasTarget = true;
