@@ -350,10 +350,10 @@ public class RedBigTriangleAuto2 extends OpMode {
     public void loop() {
         follower.update();
         shootingManager.update(
-                follower.getPose().distanceFrom(Poses.blueGoalPose),
+                follower.getPose().distanceFrom(Poses.redGoalPose),
                 timer.seconds(),
                 follower.poseTracker.getVelocity(),
-                Math.atan2((Poses.blueGoalPose.getY() - follower.getPose().getY()), (Poses.blueGoalPose.getX() - follower.getPose().getX()))
+                Math.atan2((Poses.redGoalPose.getY() - follower.getPose().getY()), (Poses.redGoalPose.getX() - follower.getPose().getX()))
         );
         intakingManager.update();
         run();
@@ -369,7 +369,7 @@ public class RedBigTriangleAuto2 extends OpMode {
         json.addProperty("x", currentPose.getX());
         json.addProperty("y", currentPose.getY());
         json.addProperty("heading", currentPose.getHeading());
-        json.addProperty("color", AllianceColor.BLUE.toString());
+        json.addProperty("color", AllianceColor.RED.toString());
 
         gson = new Gson();
         file = AppUtil.getInstance().getSettingsFile("RobotSettings.json");
