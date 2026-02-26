@@ -106,6 +106,16 @@ public class MainTeleOp extends OpMode {
 
     @Override
     public void loop() {
+        if(limelight.hasTarget()){
+            telemetry.addData("x", limelight.getX() * 100 / 2.54);
+            telemetry.addData("Y", limelight.getY() * 100 / 2.54);
+            follower.setX(limelight.getX() * 100 / 2.54);
+            follower.setY(limelight.getY() * 100 / 2.54);
+            follower.setHeading(Math.toRadians(limelight.getHeading()));
+        }
+        telemetry.addData("curent pose x", follower.getPose().getX());
+        telemetry.addData("curent posey", follower.getPose().getY());
+        telemetry.addData("curent pose h", Math.toDegrees(follower.getPose().getHeading()));
         double odoError;
         {
             double dx = Poses.blueGoalPose.getX() - follower.getPose().getX();

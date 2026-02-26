@@ -73,7 +73,7 @@ public class BlueSmallTriangleAuto1 extends OpMode {
 
                                     new Pose(57.869, 23.869)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(118))
+                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(110))
 
                     .build();
 
@@ -83,7 +83,7 @@ public class BlueSmallTriangleAuto1 extends OpMode {
                                     new Pose(32.902, 26.874),
                                     new Pose(15.729, 10.626)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(118), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(110), Math.toRadians(180))
 
                     .build();
 
