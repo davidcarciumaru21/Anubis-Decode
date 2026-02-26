@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.managers;
 
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.global.Poses;
 import org.firstinspires.ftc.teamcode.systems.Limelight;
 
 public class VisualManager {
@@ -25,23 +27,39 @@ public class VisualManager {
         return distance;
     }
 
-    public double getTargetRotation(double currentTime) {
+    public double getTargetRotation(double currentTime, Follower follower) {
+        double odoError;
+        {
+            double dx = Poses.blueGoalPose.getX() - follower.getPose().getX();
+            double dy = Poses.blueGoalPose.getY() - follower.getPose().getY();
+
+            double baseHeading = Math.toRadians(90) - Math.atan2(dx, dy);
+            double targetHeading = baseHeading;
+
+            double currentHeading = follower.getPose().getHeading();
+            odoError = targetHeading - currentHeading;
+
+            while (odoError > Math.PI)  odoError -= 2 * Math.PI;
+            while (odoError < -Math.PI) odoError += 2 * Math.PI;
+        }
+
+        rotation = odoError / Math.PI;
+
         if (limelight.hasTarget()) {
 
             double error = limelight.getYaw();
-            double kP = 0.02;   // tune this
+            double kP = 0.015;   // tune this
             double dt = currentTime - lastTime;
             if (dt > 0) {
                 derivative = (error - lastError) / dt;
             }
 
-            double kD = 0.00001;
+            double kD = 0.000000001;
 
             return -(kP * error + kD * derivative);
-
-        } else {
-
-            return 0;
         }
+
+        return  rotation;
+
     }
 }

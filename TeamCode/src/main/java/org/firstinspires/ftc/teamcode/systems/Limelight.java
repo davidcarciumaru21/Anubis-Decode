@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 public class Limelight {
     private Limelight3A limelight;
     private double lastTxAngle;
-    private double lastX;
-    private double lastY;
+    private double lastX = 1.8;
+    private double lastY = 1.8;
     private double lastHeading;
     private double lastTaAngle;
     private boolean hasTarget;
@@ -26,7 +26,7 @@ public class Limelight {
 
 
         if (llResult != null && llResult.isValid()){
-            lastX = llResult.getTx();
+            lastTxAngle = llResult.getTx();
             hasTarget = true;
         } else {
             hasTarget = false;
@@ -40,8 +40,10 @@ public class Limelight {
 
         if (llResult != null && llResult.isValid()){
             Pose3D botPose = llResult.getBotpose();
-            if(Math.abs(lastX - (botPose.getPosition().x + 1.8)) < 5) {
-                lastX = botPose.getPosition().x + 1.8;
+            if(Math.abs(lastX - (botPose.getPosition().x + 1.8)) < 0.08) {
+                if((Math.abs(botPose.getPosition().x + 1.8)*100) < 380) {
+                    lastX = botPose.getPosition().x + 1.8;
+                }
             }
             hasTarget = true;
 
@@ -57,8 +59,10 @@ public class Limelight {
 
         if (llResult != null && llResult.isValid()){
             Pose3D botPose = llResult.getBotpose();
-            if(Math.abs(lastY - (botPose.getPosition().y + 1.8)) < 5) {
-                lastY = botPose.getPosition().y + 1.8;
+            if(Math.abs(lastY - (botPose.getPosition().y + 1.8)) < 0.08) {
+                if((Math.abs(botPose.getPosition().y + 1.8)*100) < 380) {
+                    lastY = botPose.getPosition().y + 1.8;
+                }
             }
             hasTarget = true;
 
@@ -74,9 +78,8 @@ public class Limelight {
 
         if (llResult != null && llResult.isValid()){
             Pose3D botPose = llResult.getBotpose();
-            if(Math.abs(lastHeading - botPose.getOrientation().getYaw()) < 5) {
-                lastHeading = botPose.getOrientation().getYaw();
-            }
+            lastHeading = botPose.getOrientation().getYaw();
+
             hasTarget = true;
         } else {
             hasTarget = false;

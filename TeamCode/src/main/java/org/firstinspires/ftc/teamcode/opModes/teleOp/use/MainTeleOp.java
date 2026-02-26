@@ -109,19 +109,24 @@ public class MainTeleOp extends OpMode {
         if(limelight.hasTarget()){
             telemetry.addData("x", limelight.getX() * 100 / 2.54);
             telemetry.addData("Y", limelight.getY() * 100 / 2.54);
-            follower.setX(limelight.getX() * 100 / 2.54);
-            follower.setY(limelight.getY() * 100 / 2.54);
-            follower.setHeading(Math.toRadians(limelight.getHeading()));
+            //if(Math.abs(( Math.abs(follower.getPose().getX()) -  Math.abs(limelight.getX() * 100 / 2.54))) > 15 || Math.abs(( Math.abs(follower.getPose().getY()) -  Math.abs(limelight.getY() * 100 / 2.54))) > 15) {
+                //telemetry.addData("x", limelight.getX() * 100 / 2.54);
+                //telemetry.addData("Y", limelight.getY() * 100 / 2.54);
+                //follower.setX(limelight.getX() * 100 / 2.54);
+                //follower.setY(limelight.getY() * 100 / 2.54);
+                //follower.setHeading(Math.toRadians(limelight.getHeading() - 90));
+            //}
         }
         telemetry.addData("curent pose x", follower.getPose().getX());
         telemetry.addData("curent posey", follower.getPose().getY());
-        telemetry.addData("curent pose h", Math.toDegrees(follower.getPose().getHeading()));
+        telemetry.addData("curent pose h", Math.toDegrees(follower.getPose().getHeading()
+        ));
         double odoError;
         {
             double dx = Poses.blueGoalPose.getX() - follower.getPose().getX();
             double dy = Poses.blueGoalPose.getY() - follower.getPose().getY();
 
-            double baseHeading = Math.toRadians(90) - Math.atan2(dx, dy);
+            double baseHeading = Math.toRadians(0) - Math.atan2(dx, dy);
             double targetHeading = baseHeading;
 
             double currentHeading = follower.getPose().getHeading();
@@ -146,19 +151,17 @@ public class MainTeleOp extends OpMode {
                     : DrivingType.ROBOT_CENTRIC;
         }
 
-        if (gamepad1.right_trigger > 0.1) gamepad1Coef = GamepadsSettings.slowCoefGm1;
-        else if (gamepad1.left_trigger > 0.1) gamepad1Coef = GamepadsSettings.verySlowCoefGm1;
+        if (gamepad1.left_trigger > 0.1) gamepad1Coef = 0.4;
         else gamepad1Coef = 1.0;
 
-        if (gamepad2.right_trigger > 0.1) gamepad2Coef = GamepadsSettings.slowCoefGm2;
-        else if (gamepad2.left_trigger > 0.1) gamepad2Coef = GamepadsSettings.verySlowCoefGm2;
+        if (gamepad2.left_trigger > 0.1) gamepad2Coef = GamepadsSettings.slowCoefGm2;
         else gamepad2Coef = 1.0;
 
         if (gamepad1IsActive) {
-            if (turretAim) {
+            if (gamepad1.right_trigger > 0.1) {
                 forward = -gamepad1.left_stick_y * gamepad1Coef;
                 strafe = -gamepad1.left_stick_x * gamepad1Coef;
-                rotation = visualManager.getTargetRotation(cameraTimer.seconds());
+                rotation = visualManager.getTargetRotation(cameraTimer.seconds(), follower);
                 /*
                 if (limelight.hasTarget()) {
 
@@ -210,11 +213,11 @@ public class MainTeleOp extends OpMode {
                 );
             }
         } else {
-            if (turretAim) {
+            if (gamepad1.right_trigger > 0.1) {
                 forward = gamepad2.left_stick_y * gamepad2Coef;
                 strafe = gamepad2.left_stick_x * gamepad2Coef;
 
-                rotation = visualManager.getTargetRotation(cameraTimer.seconds());
+                rotation = visualManager.getTargetRotation(cameraTimer.seconds(), follower);
 
             }
             else {
@@ -243,7 +246,7 @@ public class MainTeleOp extends OpMode {
         if (gamepad1.rightBumperWasPressed()) shootingManager.shoot();
         if (gamepad1.xWasPressed()) intakingManager.togglePull();
         if (gamepad1.yWasPressed()) intakingManager.reverse();
-        if (gamepad1.aWasPressed()) {
+        if (gamepad1.right_trigger > 0.1) {
             turretAim = !turretAim;
 
             lastError = 0;
