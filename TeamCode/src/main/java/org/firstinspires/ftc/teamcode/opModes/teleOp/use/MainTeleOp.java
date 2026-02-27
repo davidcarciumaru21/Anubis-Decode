@@ -166,15 +166,13 @@ public class MainTeleOp extends OpMode {
                     rotation = visualManager.getTargetRotation(
                             cameraTimer.seconds(),
                             follower,
-                            follower.getPose().distanceFrom(Poses.blueGoalPose),
-                            AllianceColor.BLUE
+                            Poses.blueGoalPose
                     );
                 } else {
                     rotation = visualManager.getTargetRotation(
                             cameraTimer.seconds(),
                             follower,
-                            follower.getPose().distanceFrom(Poses.redGoalPose),
-                            AllianceColor.RED
+                            Poses.redGoalPose
                     );
                 }
                 /*
@@ -234,15 +232,13 @@ public class MainTeleOp extends OpMode {
                     rotation = visualManager.getTargetRotation(
                             cameraTimer.seconds(),
                             follower,
-                            follower.getPose().distanceFrom(Poses.blueGoalPose),
-                            AllianceColor.BLUE
+                            Poses.blueGoalPose
                     );
                 } else {
                     rotation = visualManager.getTargetRotation(
                             cameraTimer.seconds(),
                             follower,
-                            follower.getPose().distanceFrom(Poses.redGoalPose),
-                            AllianceColor.RED
+                            Poses.redGoalPose
                     );
                 }
 

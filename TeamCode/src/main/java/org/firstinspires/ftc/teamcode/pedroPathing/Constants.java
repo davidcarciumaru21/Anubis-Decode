@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.follower.Follower;
@@ -13,23 +14,24 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+@Configurable
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(11)
-            .forwardZeroPowerAcceleration(-40.2098863)
-            .lateralZeroPowerAcceleration(-64.75)
+            .mass(13)
+            .forwardZeroPowerAcceleration(-25.4610175)
+            .lateralZeroPowerAcceleration(-55.04183)
             .translationalPIDFCoefficients(new PIDFCoefficients(
                     0.1,
                     0,
-                    0.001,
-                    0.03
+                    0.03,
+                    0.09
             ))
             .useSecondaryDrivePIDF(true)
             .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(
-                    0.15,
+                    0.11,
                     0,
-                    0.035,
-                    0.005
+                    0.01,
+                    0.03
             ))
             .useSecondaryHeadingPIDF(true)
             .headingPIDFCoefficients(new PIDFCoefficients(
@@ -72,6 +74,8 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .xVelocity(73.986645)
+            .yVelocity(51.1481175)
             .useBrakeModeInTeleOp(true);
 
     public static ThreeWheelIMUConstants localizerConstants = new ThreeWheelIMUConstants()

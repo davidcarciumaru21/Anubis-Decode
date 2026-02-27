@@ -93,7 +93,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
 
                                     new Pose(57.869, 23.869)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(113))
+                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(115))
 
                     .build();
 
@@ -103,7 +103,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
                                     new Pose(51.925, 35.841),
                                     new Pose(45.084, 35.664)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(113), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(115), Math.toRadians(180))
 
                     .build();
 
@@ -123,7 +123,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
 
                                     new Pose(57.869, 23.869)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(113))
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(117))
 
                     .build();
 
@@ -133,7 +133,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
                                     new Pose(16.692, 64.607),
                                     new Pose(8.075, 26.374)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(113), Math.toRadians(270))
+                    ).setLinearHeadingInterpolation(Math.toRadians(117), Math.toRadians(270))
 
                     .build();
 
@@ -153,7 +153,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
 
                                     new Pose(57.869, 23.869)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(113))
+                    ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(125))
 
                     .build();
 
@@ -163,7 +163,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
                                     new Pose(60.650, 60.897),
                                     new Pose(42.626, 59.963)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(113), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(125), Math.toRadians(180))
 
                     .build();
 
@@ -183,7 +183,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
                                     new Pose(47.075, 57.925),
                                     new Pose(47.551, 95.196)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(113))
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(136))
 
                     .build();
 
@@ -193,7 +193,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
                                     new Pose(61.874, 83.140),
                                     new Pose(42.626, 84.598)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(113), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(136), Math.toRadians(180))
 
                     .build();
 
@@ -212,7 +212,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
 
                                     new Pose(47.551, 95.196)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(113))
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(136))
 
                     .build();
         }
@@ -293,7 +293,7 @@ public class BlueSmallTriangleAuto2 extends OpMode {
             case SHOOT_HUMAN_PLAYER_BALLS:
                 if (!follower.isBusy()) {
                     shootingManager.shoot();
-                    setPathState(States.END);
+                    setPathState(States.SHOOT_HUMAN_PLAYER_BALLS_TO_INTAKE_LINE_2);
                 }
                 break;
 

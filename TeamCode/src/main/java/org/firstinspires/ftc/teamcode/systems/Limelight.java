@@ -17,7 +17,11 @@ public class Limelight {
 
     public Limelight(HardwareMap hardwareMap){
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        limelight.pipelineSwitch(0);
+    }
+
+    public void setPipelineSwitch(int index){
+        limelight.stop();
+        limelight.pipelineSwitch(index);
         limelight.start();
     }
 
