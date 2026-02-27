@@ -19,7 +19,7 @@ public class Outtake {
 
     public static double kS = 1.59;
     public static double kV = 0.0021;
-    public static double kP = 1.0;
+    public static double kP = 0.01;
     public static double kI = 0.0;
 
     public static double MAX_ACCEL_RPM_PER_SEC = 24000;

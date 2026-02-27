@@ -161,7 +161,22 @@ public class MainTeleOp extends OpMode {
             if (gamepad1.right_trigger > 0.1) {
                 forward = -gamepad1.left_stick_y * gamepad1Coef;
                 strafe = -gamepad1.left_stick_x * gamepad1Coef;
-                rotation = visualManager.getTargetRotation(cameraTimer.seconds(), follower);
+
+                if (allianceColor == AllianceColor.BLUE.toString()) {
+                    rotation = visualManager.getTargetRotation(
+                            cameraTimer.seconds(),
+                            follower,
+                            follower.getPose().distanceFrom(Poses.blueGoalPose),
+                            AllianceColor.BLUE
+                    );
+                } else {
+                    rotation = visualManager.getTargetRotation(
+                            cameraTimer.seconds(),
+                            follower,
+                            follower.getPose().distanceFrom(Poses.redGoalPose),
+                            AllianceColor.RED
+                    );
+                }
                 /*
                 if (limelight.hasTarget()) {
 
@@ -195,8 +210,6 @@ public class MainTeleOp extends OpMode {
                 rotation = -gamepad1.right_stick_x * gamepad1Coef;
             }
 
-
-
             if (drivingTypeGm1 == DrivingType.ROBOT_CENTRIC) {
                 follower.setTeleOpDrive(
                         forward,
@@ -217,7 +230,21 @@ public class MainTeleOp extends OpMode {
                 forward = gamepad2.left_stick_y * gamepad2Coef;
                 strafe = gamepad2.left_stick_x * gamepad2Coef;
 
-                rotation = visualManager.getTargetRotation(cameraTimer.seconds(), follower);
+                if (allianceColor == AllianceColor.BLUE.toString()) {
+                    rotation = visualManager.getTargetRotation(
+                            cameraTimer.seconds(),
+                            follower,
+                            follower.getPose().distanceFrom(Poses.blueGoalPose),
+                            AllianceColor.BLUE
+                    );
+                } else {
+                    rotation = visualManager.getTargetRotation(
+                            cameraTimer.seconds(),
+                            follower,
+                            follower.getPose().distanceFrom(Poses.redGoalPose),
+                            AllianceColor.RED
+                    );
+                }
 
             }
             else {

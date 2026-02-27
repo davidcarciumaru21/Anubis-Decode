@@ -68,7 +68,7 @@ public class ShootingManager {
         double angle;
         double g;
 
-        if (distance < 140) {
+        if (distance < 125) {
             distance = distance - ShootingConstants.Close.PASS_THROUGH_POINT_RADIUS;
             height =  ShootingConstants.Close.SCORE_HEIGHT;
             angle = ShootingConstants.Close.SCORE_ANGLE;
