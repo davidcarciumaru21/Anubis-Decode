@@ -29,11 +29,11 @@ public class VisualManager {
     }
 
     public double getTargetRotation(double currentTime, Follower follower, Pose pose) {
-        if(pose.getPose() == Poses.blueGoalPose.getPose()){
+        if(pose.getPose().getX() == Poses.blueGoalPose.getPose().getX()){
             limelight.setPipelineSwitch(0);
         }
         else{
-            limelight.setPipelineSwitch(0); // RED
+            limelight.setPipelineSwitch(1); // RED
         }
         double odoError;
         {
