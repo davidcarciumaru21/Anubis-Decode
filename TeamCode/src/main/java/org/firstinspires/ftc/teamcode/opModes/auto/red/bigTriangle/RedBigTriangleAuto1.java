@@ -25,11 +25,9 @@ import java.io.File;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import org.firstinspires.ftc.teamcode.utils.AutoUtils;
 import static org.firstinspires.ftc.teamcode.utils.AutoUtils.mirrorHeading;
 
-@Autonomous(name = "RedTriangleAuto1", group = "Red")
+@Autonomous(name = "RedBigTriangleAuto1", group = "Red")
 public class RedBigTriangleAuto1 extends OpMode {
 
     private enum States {
@@ -66,6 +64,7 @@ public class RedBigTriangleAuto1 extends OpMode {
     private JsonObject json;
     private Gson gson;
     private File file;
+
     public static class Paths {
         public PathChain Path1;
         public PathChain Path2;
@@ -196,7 +195,7 @@ public class RedBigTriangleAuto1 extends OpMode {
             case FINISHED_INTAKED_LINE1_TO_OPEN_GATE:
                 if (!follower.isBusy()) {
                     intakingManager.togglePull();
-                    follower.followPath(paths.Path4, 0.4, false);
+                    follower.followPath(paths.Path4, 0.7, false);
                     setPathState(States.OPEN_GATE_TO_SHOOT_LINE1);
                 }
                 break;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opModes.auto.red.bigTriangle;
+package org.firstinspires.ftc.teamcode.opModes.auto.red.smallTriangle;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -224,7 +224,7 @@ public class RedBigTriangleAuto2 extends OpMode {
             case INTAKE_LINE1_TO_FINISHED_INTAKE_LINE1:
                 if (!follower.isBusy()) {
                     intakingManager.togglePull();
-                    follower.followPath(paths.Path3, 0.4, false);
+                    follower.followPath(paths.Path3, 0.7, false);
                     setPathState(States.FINISHED_INTAKED_LINE1_TO_OPEN_GATE);
                 }
                 break;

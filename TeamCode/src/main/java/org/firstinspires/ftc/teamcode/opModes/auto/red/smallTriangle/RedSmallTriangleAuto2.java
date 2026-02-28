@@ -88,13 +88,13 @@ public class RedSmallTriangleAuto2 extends OpMode {
         public PathChain Path13;
 
         public Paths(Follower follower) {
-            Path7 = follower.pathBuilder().addPath(
+            Path1 = follower.pathBuilder().addPath(
                             new BezierLine(
                                     new Pose(64.374, 9.645).mirror(),
 
                                     new Pose(57.869, 23.869).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(90)), Math.toRadians(mirrorHeading(118)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(90)), Math.toRadians(mirrorHeading(115)))
 
                     .build();
 
@@ -104,7 +104,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
                                     new Pose(51.925, 35.841).mirror(),
                                     new Pose(45.084, 35.664).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(118)), Math.toRadians(mirrorHeading(180)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(115)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
@@ -124,7 +124,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
 
                                     new Pose(57.869, 23.869).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(118)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(117)))
 
                     .build();
 
@@ -134,7 +134,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
                                     new Pose(16.692, 64.607).mirror(),
                                     new Pose(8.075, 26.374).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(118)), Math.toRadians(mirrorHeading(270)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(117)), Math.toRadians(mirrorHeading(270)))
 
                     .build();
 
@@ -154,7 +154,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
 
                                     new Pose(57.869, 23.869).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(118)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(125)))
 
                     .build();
 
@@ -164,7 +164,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
                                     new Pose(60.650, 60.897).mirror(),
                                     new Pose(42.626, 59.963).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(118)), Math.toRadians(mirrorHeading(180)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(125)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
@@ -184,7 +184,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
                                     new Pose(47.075, 57.925).mirror(),
                                     new Pose(47.551, 95.196).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(118)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(136)))
 
                     .build();
 
@@ -194,14 +194,13 @@ public class RedSmallTriangleAuto2 extends OpMode {
                                     new Pose(61.874, 83.140).mirror(),
                                     new Pose(42.626, 84.598).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(118)), Math.toRadians(mirrorHeading(180)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(136)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
             Path12 = follower.pathBuilder().addPath(
                             new BezierLine(
                                     new Pose(42.626, 84.598).mirror(),
-
                                     new Pose(16.748, 84.224).mirror()
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(180)))
@@ -214,7 +213,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
 
                                     new Pose(47.551, 95.196).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(118)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(136)))
 
                     .build();
         }
@@ -400,10 +399,10 @@ public class RedSmallTriangleAuto2 extends OpMode {
     public void loop() {
         follower.update();
         shootingManager.update(
-                follower.getPose().distanceFrom(Poses.blueGoalPose),
+                follower.getPose().distanceFrom(Poses.redGoalPose),
                 timer.seconds(),
                 follower.poseTracker.getVelocity(),
-                Math.atan2((Poses.blueGoalPose.getY() - follower.getPose().getY()), (Poses.blueGoalPose.getX() - follower.getPose().getX()))
+                Math.atan2((Poses.redGoalPose.getY() - follower.getPose().getY()), (Poses.redGoalPose.getX() - follower.getPose().getX()))
         );
         intakingManager.update();
         run();
@@ -419,7 +418,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
         json.addProperty("x", currentPose.getX());
         json.addProperty("y", currentPose.getY());
         json.addProperty("heading", currentPose.getHeading());
-        json.addProperty("color", AllianceColor.BLUE.toString());
+        json.addProperty("color", AllianceColor.RED.toString());
 
         gson = new Gson();
         file = AppUtil.getInstance().getSettingsFile("RobotSettings.json");
