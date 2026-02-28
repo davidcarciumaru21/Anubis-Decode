@@ -15,12 +15,8 @@ public class Limelight {
     private double lastTaAngle;
     private boolean hasTarget;
 
-    public Limelight(HardwareMap hardwareMap){
+    public Limelight(HardwareMap hardwareMap, int index){
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-    }
-
-    public void setPipelineSwitch(int index){
-        limelight.stop();
         limelight.pipelineSwitch(index);
         limelight.start();
     }

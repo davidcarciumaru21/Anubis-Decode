@@ -154,7 +154,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
 
                                     new Pose(57.869, 23.869).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(125)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(120)))
 
                     .build();
 
@@ -164,7 +164,7 @@ public class RedSmallTriangleAuto2 extends OpMode {
                                     new Pose(60.650, 60.897).mirror(),
                                     new Pose(42.626, 59.963).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(125)), Math.toRadians(mirrorHeading(180)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(120)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 

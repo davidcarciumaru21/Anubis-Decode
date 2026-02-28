@@ -17,7 +17,7 @@ public final class ShootingConstants {
     public static final class Far {
         public static final double SCORE_HEIGHT = 34;
         public static final double PASS_THROUGH_POINT_RADIUS = 30;
-        public static final double SCORE_ANGLE = Math.toRadians(-15);
+        public static final double SCORE_ANGLE = Math.toRadians(-20);
         public static final double g = 386.1;
     }
 }

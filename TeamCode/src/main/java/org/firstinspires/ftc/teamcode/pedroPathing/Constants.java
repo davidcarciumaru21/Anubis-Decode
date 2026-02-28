@@ -63,7 +63,7 @@ public class Constants {
             ))
             .centripetalScaling(0.0005);
 
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 2, 1);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .leftFrontMotorName("FrontLeftMotor")

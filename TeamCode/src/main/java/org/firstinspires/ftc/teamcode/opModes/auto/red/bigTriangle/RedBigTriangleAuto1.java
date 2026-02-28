@@ -42,6 +42,7 @@ public class RedBigTriangleAuto1 extends OpMode {
         INTAKE_LINE2_TO_FINISHED_INTAKE_LINE2,
         FINISHED_INTAKE_LINE2_TO_SHOOT_LINE2,
         SHOOT_LINE2,
+        SHOOT_LINE2_TO_OPEN_GATE,
         END
     }
 
@@ -74,6 +75,7 @@ public class RedBigTriangleAuto1 extends OpMode {
         public PathChain Path6;
         public PathChain Path7;
         public PathChain Path8;
+        public PathChain Path9;
 
         public Paths(Follower follower) {
             Path1 = follower.pathBuilder().addPath(
@@ -152,7 +154,16 @@ public class RedBigTriangleAuto1 extends OpMode {
                                     new Pose(51.439, 57.243).mirror(),
                                     new Pose(59.140, 84.224).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(131)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(135)))
+
+                    .build();
+            Path9 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(59.140, 84.224).mirror(),
+
+                                    new Pose(14.056, 69.645).mirror()
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(135)), Math.toRadians(mirrorHeading(-90)))
 
                     .build();
         }
@@ -238,6 +249,13 @@ public class RedBigTriangleAuto1 extends OpMode {
             case SHOOT_LINE2:
                 if (!follower.isBusy()) {
                     shootingManager.shoot();
+                    setPathState(States.SHOOT_LINE2_TO_OPEN_GATE);
+                }
+                break;
+
+            case SHOOT_LINE2_TO_OPEN_GATE:
+                if (!shootingManager.isBusy()) {
+                    follower.followPath(paths.Path9);
                     setPathState(States.END);
                 }
                 break;

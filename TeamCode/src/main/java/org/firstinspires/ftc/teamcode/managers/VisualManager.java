@@ -29,12 +29,6 @@ public class VisualManager {
     }
 
     public double getTargetRotation(double currentTime, Follower follower, Pose pose) {
-        if(pose.getPose().getX() == Poses.blueGoalPose.getPose().getX()){
-            limelight.setPipelineSwitch(0);
-        }
-        else{
-            limelight.setPipelineSwitch(1); // RED
-        }
         double odoError;
         {
             double dx = pose.getX() - follower.getPose().getX();

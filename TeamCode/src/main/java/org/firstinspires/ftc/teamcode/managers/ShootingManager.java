@@ -73,7 +73,7 @@ public class ShootingManager {
             angle = ShootingConstants.VeryClose.SCORE_ANGLE;
             g = ShootingConstants.VeryClose.g;
         }
-        else if (distance < 125) {
+        else if (distance < 125 && distance >= 30) {
             distance = distance - ShootingConstants.Close.PASS_THROUGH_POINT_RADIUS;
             height =  ShootingConstants.Close.SCORE_HEIGHT;
             angle = ShootingConstants.Close.SCORE_ANGLE;

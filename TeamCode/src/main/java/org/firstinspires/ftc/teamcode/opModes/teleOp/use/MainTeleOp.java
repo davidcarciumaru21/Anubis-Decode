@@ -87,7 +87,12 @@ public class MainTeleOp extends OpMode {
         indexer = new Indexer(hardwareMap);
         deflector = new Deflector(hardwareMap);
         outtake = new Outtake(hardwareMap);
-        limelight = new Limelight(hardwareMap);
+        if(allianceColor.equals(AllianceColor.BLUE.toString())) {
+            limelight = new Limelight(hardwareMap, 0);
+        }
+        else{
+            limelight = new Limelight(hardwareMap, 1320);
+        }
 
         visualManager = new VisualManager(limelight);
         intakingManager = new IntakingManager(intake);

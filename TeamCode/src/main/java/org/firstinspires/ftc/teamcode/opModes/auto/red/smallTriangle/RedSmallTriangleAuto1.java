@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.global.AllianceColor;
 import org.firstinspires.ftc.teamcode.global.Poses;
+import org.firstinspires.ftc.teamcode.opModes.auto.blue.smallTriangle.BlueSmallTriangleAuto1;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.systems.Deflector;
 import org.firstinspires.ftc.teamcode.systems.Outtake;
@@ -94,7 +95,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
 
                                     new Pose(57.869, 23.869).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(90)), Math.toRadians(mirrorHeading(115)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(90)), Math.toRadians(mirrorHeading(110)))
 
                     .build();
 
@@ -104,7 +105,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
                                     new Pose(51.925, 35.841).mirror(),
                                     new Pose(45.084, 35.664).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(115)), Math.toRadians(mirrorHeading(180)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(110)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
@@ -124,7 +125,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
 
                                     new Pose(57.869, 23.869).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(115)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(118)))
 
                     .build();
 
@@ -134,7 +135,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
                                     new Pose(16.692, 64.607).mirror(),
                                     new Pose(8.075, 26.374).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(115)), Math.toRadians(mirrorHeading(270)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(118)), Math.toRadians(mirrorHeading(270)))
 
                     .build();
 
@@ -154,7 +155,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
 
                                     new Pose(57.869, 23.869).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(125)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(270)), Math.toRadians(mirrorHeading(118)))
 
                     .build();
 
@@ -164,7 +165,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
                                     new Pose(60.650, 60.897).mirror(),
                                     new Pose(42.626, 59.963).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(125)), Math.toRadians(mirrorHeading(180)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(118)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
@@ -248,7 +249,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
             case INTAKE_LINE3_TO_FINISHED_INTAKE_LINE3:
                 if (!follower.isBusy()) {
                     intakingManager.togglePull();
-                    follower.followPath(paths.Path3, 0.4, false);
+                    follower.followPath(paths.Path3, 7, false);
                     setPathState(States.FINISHED_INTAKE_LINE3_TO_SHOOT_LINE3);
                 }
                 break;
@@ -262,7 +263,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
                 break;
 
             case SHOOT_LINE3:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy() && secondTimer.seconds() > 2) {
                     shootingManager.shoot();
                     setPathState(States.SHOOT_LINE3_TO_INTAKE_HUMAN_PLAYER_BALLS);
                 }
