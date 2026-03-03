@@ -28,6 +28,7 @@ public class VisualManager {
         return distance;
     }
 
+    /*
     public double getTargetRotation(double currentTime, Follower follower, Pose pose) {
         if (limelight.hasTarget()) {
 
@@ -57,5 +58,11 @@ public class VisualManager {
 
         }
         return 0;
+    }
+
+     */
+
+    public Pose getNewPose() {
+        return limelight.getPose();
     }
 }

@@ -4,7 +4,9 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import com.pedropathing.geometry.Pose;
 
 public class Limelight {
     private Limelight3A limelight;
@@ -88,8 +90,6 @@ public class Limelight {
         return lastHeading;
     }
 
-
-
     public double getTargetArea(){
         LLResult llResult = limelight.getLatestResult();
 
@@ -97,12 +97,32 @@ public class Limelight {
         if (llResult != null && llResult.isValid()){
             lastTaAngle = llResult.getTa();
         } else {
+
         }
 
         return lastTaAngle;
     }
 
-    public boolean hasTarget(){
-        return hasTarget;
+    public Pose getPose() {
+
+        LLResult llResult = limelight.getLatestResult();
+
+        if (llResult == null || !llResult.isValid()) {
+            return null;
+        }
+
+        Pose3D pose = llResult.getBotpose();
+
+        double x = pose.getPosition().x * 39.3701 + 72;
+        double y = pose.getPosition().y * 39.3701 + 72;
+
+        double heading = pose.getOrientation().getYaw(AngleUnit.RADIANS) - Math.PI / 2;
+
+        return new Pose(x, y, heading);
+    }
+
+    public boolean hasTarget() {
+        LLResult llResult = limelight.getLatestResult();
+        return llResult != null && llResult.isValid();
     }
 }

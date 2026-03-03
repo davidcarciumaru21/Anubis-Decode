@@ -32,10 +32,6 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 @TeleOp(name = "MainTeleOp", group = "use")
 public class MainTeleOp extends OpMode {
 
-    private double lastError = 0;
-    private double derivative;
-    private double lastTime = 0;
-
     private Intake intake;
     private Indexer indexer;
     private Deflector deflector;
@@ -87,10 +83,10 @@ public class MainTeleOp extends OpMode {
         indexer = new Indexer(hardwareMap);
         deflector = new Deflector(hardwareMap);
         outtake = new Outtake(hardwareMap);
-        if(allianceColor.equals(AllianceColor.BLUE.toString())) {
-            limelight = new Limelight(hardwareMap, 0);
+        if (allianceColor.equals(AllianceColor.BLUE.toString())) {
+            limelight = new Limelight(hardwareMap, 1);
         }
-        else{
+        else {
             limelight = new Limelight(hardwareMap, 1);
         }
 
@@ -111,35 +107,8 @@ public class MainTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        if(limelight.hasTarget()){
-            telemetry.addData("x", limelight.getX() * 100 / 2.54);
-            telemetry.addData("Y", limelight.getY() * 100 / 2.54);
-            //if(Math.abs(( Math.abs(follower.getPose().getX()) -  Math.abs(limelight.getX() * 100 / 2.54))) > 15 || Math.abs(( Math.abs(follower.getPose().getY()) -  Math.abs(limelight.getY() * 100 / 2.54))) > 15) {
-                //telemetry.addData("x", limelight.getX() * 100 / 2.54);
-                //telemetry.addData("Y", limelight.getY() * 100 / 2.54);
-                //follower.setX(limelight.getX() * 100 / 2.54);
-                //follower.setY(limelight.getY() * 100 / 2.54);
-                //follower.setHeading(Math.toRadians(limelight.getHeading() - 90));
-            //}
-        }
-        telemetry.addData("curent pose x", follower.getPose().getX());
-        telemetry.addData("curent posey", follower.getPose().getY());
-        telemetry.addData("curent pose h", Math.toDegrees(follower.getPose().getHeading()
-        ));
-        double odoError;
-        {
-            double dx = Poses.blueGoalPose.getX() - follower.getPose().getX();
-            double dy = Poses.blueGoalPose.getY() - follower.getPose().getY();
+        Pose visionPose = limelight.getPose();
 
-            double baseHeading = Math.toRadians(0) - Math.atan2(dx, dy);
-            double targetHeading = baseHeading;
-
-            double currentHeading = follower.getPose().getHeading();
-            odoError = targetHeading - currentHeading;
-
-            while (odoError > Math.PI)  odoError -= 2 * Math.PI;
-            while (odoError < -Math.PI) odoError += 2 * Math.PI;
-        }
         gamepad1IsActive = Math.abs(gamepad1.left_stick_y) > GamepadsSettings.gamepadTrashold ||
                 Math.abs(gamepad1.left_stick_x) > GamepadsSettings.gamepadTrashold ||
                 Math.abs(gamepad1.right_stick_x) > GamepadsSettings.gamepadTrashold;
@@ -168,17 +137,53 @@ public class MainTeleOp extends OpMode {
                 strafe = -gamepad1.left_stick_x * gamepad1Coef;
 
                 if (allianceColor == AllianceColor.BLUE.toString()) {
+                    double targetHeading = Math.atan2(
+                            Poses.blueGoalPose.getY() - follower.getPose().getY(),
+                            Poses.blueGoalPose.getX() - follower.getPose().getX()
+                    );
+
+                    double currentHeading = follower.getPose().getHeading();
+
+                    double error = targetHeading - currentHeading;
+
+                    while (error > Math.PI)  error -= 2 * Math.PI;
+                    while (error < -Math.PI) error += 2 * Math.PI;
+
+                    double kP = 0.9;
+                    rotation = error * kP;
+
+                    rotation = Math.max(-1.0, Math.min(1.0, rotation));
+                    /*
                     rotation = visualManager.getTargetRotation(
                             cameraTimer.seconds(),
                             follower,
                             Poses.blueGoalPose
                     );
+                     */
                 } else {
+                    double targetHeading = Math.atan2(
+                            Poses.blueGoalPose.getY() - follower.getPose().getY(),
+                            Poses.blueGoalPose.getX() - follower.getPose().getX()
+                    );
+
+                    double currentHeading = follower.getPose().getHeading();
+
+                    double error = targetHeading - currentHeading;
+
+                    while (error > Math.PI)  error -= 2 * Math.PI;
+                    while (error < -Math.PI) error += 2 * Math.PI;
+
+                    double kP = 0.9;
+                    rotation = error * kP;
+
+                    rotation = Math.max(-1.0, Math.min(1.0, rotation));
+                    /*
                     rotation = visualManager.getTargetRotation(
                             cameraTimer.seconds(),
                             follower,
                             Poses.redGoalPose
                     );
+                     */
                 }
             }
             else{
@@ -208,17 +213,53 @@ public class MainTeleOp extends OpMode {
                 strafe = gamepad2.left_stick_x * gamepad2Coef;
 
                 if (allianceColor == AllianceColor.BLUE.toString()) {
+                    double targetHeading = Math.atan2(
+                            Poses.blueGoalPose.getY() - follower.getPose().getY(),
+                            Poses.blueGoalPose.getX() - follower.getPose().getX()
+                    );
+
+                    double currentHeading = follower.getPose().getHeading();
+
+                    double error = targetHeading - currentHeading;
+
+                    while (error > Math.PI)  error -= 2 * Math.PI;
+                    while (error < -Math.PI) error += 2 * Math.PI;
+
+                    double kP = 0.9;
+                    rotation = error * kP;
+
+                    rotation = Math.max(-1.0, Math.min(1.0, rotation));
+                    /*
                     rotation = visualManager.getTargetRotation(
                             cameraTimer.seconds(),
                             follower,
                             Poses.blueGoalPose
                     );
+                     */
                 } else {
+                    double targetHeading = Math.atan2(
+                            Poses.blueGoalPose.getY() - follower.getPose().getY(),
+                            Poses.blueGoalPose.getX() - follower.getPose().getX()
+                    );
+
+                    double currentHeading = follower.getPose().getHeading();
+
+                    double error = targetHeading - currentHeading;
+
+                    while (error > Math.PI)  error -= 2 * Math.PI;
+                    while (error < -Math.PI) error += 2 * Math.PI;
+
+                    double kP = 0.9;
+                    rotation = error * kP;
+
+                    rotation = Math.max(-1.0, Math.min(1.0, rotation));
+                    /*
                     rotation = visualManager.getTargetRotation(
                             cameraTimer.seconds(),
                             follower,
                             Poses.redGoalPose
                     );
+                     */
                 }
 
             }
@@ -250,12 +291,11 @@ public class MainTeleOp extends OpMode {
         if (gamepad1.yWasPressed()) intakingManager.reverse();
         if (gamepad1.right_trigger > 0.1) {
             turretAim = !turretAim;
-
-            lastError = 0;
             cameraTimer.reset();
         }
 
         follower.update();
+
         if (allianceColor.equals(AllianceColor.RED.toString())) {
             shootingManager.update(
                     follower.getPose().distanceFrom(Poses.redGoalPose),
@@ -271,6 +311,7 @@ public class MainTeleOp extends OpMode {
                     Math.atan2((Poses.blueGoalPose.getY() - follower.getPose().getY()), (Poses.blueGoalPose.getX() - follower.getPose().getX()))
             );
         }
+
         telemetry.addData("distance", visualManager.getDistance());
         telemetry.addData("YAW", limelight.getYaw());
         telemetry.addData("speed", outtake.getRPM());
@@ -279,6 +320,18 @@ public class MainTeleOp extends OpMode {
         intakingManager.update();
         timer.reset();
         cameraTimer.reset();
+
+        if (visionPose != null && !gamepad1IsActive && follower.getPose().distanceFrom(Poses.blueGoalPose) <= 100) {
+            telemetry.addData("x", visionPose.getX());
+            telemetry.addData("y", visionPose.getY());
+            telemetry.addData("angle", visionPose.getHeading());
+            follower.setPose(new Pose(visionPose.mirror().getX(), visionPose.mirror().getY(), visionPose.mirror().getHeading()));
+        }
+
+        telemetry.addData("curent pose x", follower.getPose().getX());
+        telemetry.addData("curent pose y", follower.getPose().getY());
+        telemetry.addData("curent pose h", Math.toDegrees(follower.getPose().getHeading()));
+
         telemetry.update();
     }
 
