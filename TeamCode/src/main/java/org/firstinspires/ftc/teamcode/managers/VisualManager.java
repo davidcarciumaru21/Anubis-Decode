@@ -29,38 +29,33 @@ public class VisualManager {
     }
 
     public double getTargetRotation(double currentTime, Follower follower, Pose pose) {
-        double odoError;
-        {
-            double dx = pose.getX() - follower.getPose().getX();
-            double dy = pose.getY() - follower.getPose().getY();
-
-            double baseHeading = Math.toRadians(90) - Math.atan2(dx, dy);
-            double targetHeading = baseHeading;
-
-            double currentHeading = follower.getPose().getHeading();
-            odoError = targetHeading - currentHeading;
-
-            while (odoError > Math.PI)  odoError -= 2 * Math.PI;
-            while (odoError < -Math.PI) odoError += 2 * Math.PI;
-        }
-
-        //rotation = odoError / Math.PI;
-
         if (limelight.hasTarget()) {
 
-            double error = limelight.getYaw();
-            double kP = 0.015;   // tune this
+            double yawOffset = 2.5;
+            double error = limelight.getYaw() - yawOffset;
+
+            double kP = 0.025;
+            double kD = 0.002;
+
             double dt = currentTime - lastTime;
             if (dt > 0) {
                 derivative = (error - lastError) / dt;
             }
 
-            double kD = 0.000000001;
+            lastError = error;
+            lastTime = currentTime;
 
-            return -(kP * error + kD * derivative);
+            double output = -(kP * error + kD * derivative);
+
+            if (Math.abs(error) < 0.1) {
+                return 0;
+            }
+
+            output = Math.max(-0.7, Math.min(0.7, output));
+
+            return output;
+
         }
-
-        return  rotation;
-
+        return 0;
     }
 }

@@ -71,7 +71,6 @@ public class BlueSmallTriangleAuto1 extends OpMode {
     private Gson gson;
     private File file;
 
-
     public static class Paths {
         public PathChain Path1;
         public PathChain Path2;
@@ -248,7 +247,7 @@ public class BlueSmallTriangleAuto1 extends OpMode {
             case INTAKE_LINE3_TO_FINISHED_INTAKE_LINE3:
                 if (!follower.isBusy()) {
                     intakingManager.togglePull();
-                    follower.followPath(paths.Path3, 0.7, false);
+                    follower.followPath(paths.Path3, 0.4, false);
                     setPathState(BlueSmallTriangleAuto1.States.FINISHED_INTAKE_LINE3_TO_SHOOT_LINE3);
                 }
                 break;
@@ -277,22 +276,20 @@ public class BlueSmallTriangleAuto1 extends OpMode {
 
             case INTAKE_HUMAN_PLAYER_BALLS_TO_FINISHED_INTAKE_HUMAN_PLAYER_BALLS:
                 if (!follower.isBusy()) {
-                    intakingManager.togglePull();
-                    follower.followPath(paths.Path6, 0.3, false);
+                    follower.followPath(paths.Path6, 0.6, false);
                     setPathState(BlueSmallTriangleAuto1.States.FINISHED_INTAKE_HUMAN_PLAYER_BALLS_TO_SHOOT_HUMAN_PLAYER_BALLS);
                 }
                 break;
 
             case FINISHED_INTAKE_HUMAN_PLAYER_BALLS_TO_SHOOT_HUMAN_PLAYER_BALLS:
                 if (!follower.isBusy()) {
-                    intakingManager.togglePull();
                     follower.followPath(paths.Path7);
                     setPathState(BlueSmallTriangleAuto1.States.SHOOT_HUMAN_PLAYER_BALLS);
                 }
                 break;
 
             case SHOOT_HUMAN_PLAYER_BALLS:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy() && secondTimer.milliseconds() > 2500) {
                     shootingManager.shoot();
                     setPathState(BlueSmallTriangleAuto1.States.END);
                 }

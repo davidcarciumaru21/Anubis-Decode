@@ -185,7 +185,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
                                     new Pose(47.075, 57.925).mirror(),
                                     new Pose(47.551, 95.196).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(136)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(180)), Math.toRadians(mirrorHeading(132)))
 
                     .build();
 
@@ -195,7 +195,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
                                     new Pose(61.874, 83.140).mirror(),
                                     new Pose(42.626, 84.598).mirror()
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(136)), Math.toRadians(mirrorHeading(180)))
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(132)), Math.toRadians(mirrorHeading(180)))
 
                     .build();
 
@@ -293,7 +293,7 @@ public class RedSmallTriangleAuto1 extends OpMode {
                 break;
 
             case SHOOT_HUMAN_PLAYER_BALLS:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy() && secondTimer.milliseconds() > 2500) {
                     shootingManager.shoot();
                     setPathState(States.END);
                 }

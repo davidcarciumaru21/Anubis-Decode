@@ -45,6 +45,7 @@ public class BlueBigTriangleAuto1 extends OpMode {
         FINISHED_INTAKE_LINE2_TO_SHOOT_LINE2,
         SHOOT_LINE2,
         SHOOT_LINE2_TO_OPEN_GATE,
+        STOP_GATE,
         END
     }
 
@@ -78,6 +79,7 @@ public class BlueBigTriangleAuto1 extends OpMode {
         public PathChain Path7;
         public PathChain Path8;
         public PathChain Path9;
+        public PathChain Path10;
 
         public Paths(Follower follower) {
             Path1 = follower.pathBuilder().addPath(
@@ -168,6 +170,15 @@ public class BlueBigTriangleAuto1 extends OpMode {
                     ).setLinearHeadingInterpolation(Math.toRadians(131), Math.toRadians(-90))
 
                     .build();
+            Path10 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(14.056, 69.645).mirror(),
+
+                                    new Pose(27.738, 70.093).mirror()
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(mirrorHeading(-90)), Math.toRadians(mirrorHeading(-90)))
+
+                    .build();
         }
     }
 
@@ -184,7 +195,7 @@ public class BlueBigTriangleAuto1 extends OpMode {
                 break;
 
             case SHOOT_PRELOAD:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy() && secondTimer.seconds() > 2) {
                     shootingManager.shoot();
                     setPathState(States.SHOOT_PRELOAD_TO_INTAKE_LINE1);
                 }
@@ -258,6 +269,13 @@ public class BlueBigTriangleAuto1 extends OpMode {
             case SHOOT_LINE2_TO_OPEN_GATE:
                 if (!shootingManager.isBusy()) {
                     follower.followPath(paths.Path9);
+                    setPathState(States.STOP_GATE);
+                }
+                break;
+
+            case STOP_GATE:
+                if (!follower.isBusy()) {
+                    follower.followPath(paths.Path10);
                     setPathState(States.END);
                 }
                 break;

@@ -91,7 +91,7 @@ public class MainTeleOp extends OpMode {
             limelight = new Limelight(hardwareMap, 0);
         }
         else{
-            limelight = new Limelight(hardwareMap, 1320);
+            limelight = new Limelight(hardwareMap, 1);
         }
 
         visualManager = new VisualManager(limelight);
@@ -180,32 +180,6 @@ public class MainTeleOp extends OpMode {
                             Poses.redGoalPose
                     );
                 }
-                /*
-                if (limelight.hasTarget()) {
-
-                    double error = limelight.getYaw();
-                    double kP = 0.025 ;   // tune this
-
-                    double currentTime = timer.seconds();
-                    double dt = currentTime - lastTime;
-                    if (dt > 0) {
-                        derivative = (error - lastError) / dt;
-                    }
-
-                    double kD = 0.00001;
-
-                    rotation = -(kP * error + kD * derivative);
-                }
-
-
-                else {
-                    telemetry.addData("Robot Turret-Aiming By:", "Odometry + Search");
-
-                    // Normal odometry correction
-                    rotation = odoError / Math.PI;
-                }
-                */
-
             }
             else{
                 forward = -gamepad1.left_stick_y * gamepad1Coef;
