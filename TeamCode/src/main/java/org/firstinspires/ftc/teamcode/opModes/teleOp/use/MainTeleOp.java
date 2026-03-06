@@ -51,9 +51,7 @@ public class MainTeleOp extends OpMode {
 
     private boolean gamepad1IsActive = false;
     private DrivingType drivingTypeGm1 = DrivingType.ROBOT_CENTRIC;
-    private DrivingType drivingTypeGm2 = DrivingType.ROBOT_CENTRIC;
     private double gamepad1Coef = 1.0;
-    private double gamepad2Coef = 1.0;
 
     private String allianceColor;
 
@@ -84,7 +82,7 @@ public class MainTeleOp extends OpMode {
         deflector = new Deflector(hardwareMap);
         outtake = new Outtake(hardwareMap);
         if (allianceColor.equals(AllianceColor.BLUE.toString())) {
-            limelight = new Limelight(hardwareMap, 1);
+            limelight = new Limelight(hardwareMap, 0);
         }
         else {
             limelight = new Limelight(hardwareMap, 1);
@@ -107,11 +105,11 @@ public class MainTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        Pose visionPose = limelight.getPose();
 
         gamepad1IsActive = Math.abs(gamepad1.left_stick_y) > GamepadsSettings.gamepadTrashold ||
                 Math.abs(gamepad1.left_stick_x) > GamepadsSettings.gamepadTrashold ||
-                Math.abs(gamepad1.right_stick_x) > GamepadsSettings.gamepadTrashold;
+                Math.abs(gamepad1.right_stick_x) > GamepadsSettings.gamepadTrashold ||
+                Math.abs(gamepad1.right_trigger) > GamepadsSettings.gamepadTrashold;
 
         if (gamepad1.shareWasPressed()) {
             drivingTypeGm1 = drivingTypeGm1 == DrivingType.ROBOT_CENTRIC
@@ -119,171 +117,69 @@ public class MainTeleOp extends OpMode {
                     : DrivingType.ROBOT_CENTRIC;
         }
 
-        if (gamepad2.shareWasPressed()) {
-            drivingTypeGm2 = drivingTypeGm2 == DrivingType.ROBOT_CENTRIC
-                    ? DrivingType.FIELD_CENTRIC
-                    : DrivingType.ROBOT_CENTRIC;
-        }
-
         if (gamepad1.left_trigger > 0.1) gamepad1Coef = 0.4;
         else gamepad1Coef = 1.0;
 
-        if (gamepad2.left_trigger > 0.1) gamepad2Coef = GamepadsSettings.slowCoefGm2;
-        else gamepad2Coef = 1.0;
+        if (gamepad1.right_trigger > 0.1) {
+            forward = -gamepad1.left_stick_y * gamepad1Coef;
+            strafe = -gamepad1.left_stick_x * gamepad1Coef;
 
-        if (gamepad1IsActive) {
-            if (gamepad1.right_trigger > 0.1) {
-                forward = -gamepad1.left_stick_y * gamepad1Coef;
-                strafe = -gamepad1.left_stick_x * gamepad1Coef;
-
-                if (allianceColor == AllianceColor.BLUE.toString()) {
-                    double targetHeading = Math.atan2(
-                            Poses.blueGoalPose.getY() - follower.getPose().getY(),
-                            Poses.blueGoalPose.getX() - follower.getPose().getX()
-                    );
-
-                    double currentHeading = follower.getPose().getHeading();
-
-                    double error = targetHeading - currentHeading;
-
-                    while (error > Math.PI)  error -= 2 * Math.PI;
-                    while (error < -Math.PI) error += 2 * Math.PI;
-
-                    double kP = 0.9;
-                    rotation = error * kP;
-
-                    rotation = Math.max(-1.0, Math.min(1.0, rotation));
-                    /*
-                    rotation = visualManager.getTargetRotation(
-                            cameraTimer.seconds(),
-                            follower,
-                            Poses.blueGoalPose
-                    );
-                     */
-                } else {
-                    double targetHeading = Math.atan2(
-                            Poses.blueGoalPose.getY() - follower.getPose().getY(),
-                            Poses.blueGoalPose.getX() - follower.getPose().getX()
-                    );
-
-                    double currentHeading = follower.getPose().getHeading();
-
-                    double error = targetHeading - currentHeading;
-
-                    while (error > Math.PI)  error -= 2 * Math.PI;
-                    while (error < -Math.PI) error += 2 * Math.PI;
-
-                    double kP = 0.9;
-                    rotation = error * kP;
-
-                    rotation = Math.max(-1.0, Math.min(1.0, rotation));
-                    /*
-                    rotation = visualManager.getTargetRotation(
-                            cameraTimer.seconds(),
-                            follower,
-                            Poses.redGoalPose
-                    );
-                     */
-                }
-            }
-            else{
-                forward = -gamepad1.left_stick_y * gamepad1Coef;
-                strafe = -gamepad1.left_stick_x * gamepad1Coef;
-                rotation = -gamepad1.right_stick_x * gamepad1Coef;
-            }
-
-            if (drivingTypeGm1 == DrivingType.ROBOT_CENTRIC) {
-                follower.setTeleOpDrive(
-                        forward,
-                        strafe,
-                        rotation,
-                        true
+            if (allianceColor.equals(AllianceColor.BLUE.toString())) {
+                double targetHeading = Math.atan2(
+                        Poses.blueGoalPose.getY() - follower.getPose().getY(),
+                        Poses.blueGoalPose.getX() - follower.getPose().getX()
                 );
+
+                double currentHeading = follower.getPose().getHeading();
+
+                double error = targetHeading - currentHeading;
+
+                while (error > Math.PI)  error -= 2 * Math.PI;
+                while (error < -Math.PI) error += 2 * Math.PI;
+
+                double kP = 0.9;
+                rotation = error * kP;
+
+                rotation = Math.max(-1.0, Math.min(1.0, rotation));
+
             } else {
-                follower.setTeleOpDrive(
-                        forward,
-                        strafe,
-                        rotation,
-                        false
+                double targetHeading = Math.atan2(
+                        Poses.blueGoalPose.getY() - follower.getPose().getY(),
+                        Poses.blueGoalPose.getX() - follower.getPose().getX()
                 );
+
+                double currentHeading = follower.getPose().getHeading();
+
+                double error = targetHeading - currentHeading;
+
+                while (error > Math.PI)  error -= 2 * Math.PI;
+                while (error < -Math.PI) error += 2 * Math.PI;
+
+                double kP = 0.9;
+                rotation = error * kP;
+
+                rotation = Math.max(-1.0, Math.min(1.0, rotation));
             }
+        } else{
+            forward = -gamepad1.left_stick_y * gamepad1Coef;
+            strafe = -gamepad1.left_stick_x * gamepad1Coef;
+            rotation = -gamepad1.right_stick_x * gamepad1Coef;
+        }
+
+        if (drivingTypeGm1 == DrivingType.ROBOT_CENTRIC) {
+            follower.setTeleOpDrive(
+                    forward,
+                    strafe,
+                    rotation,
+                    true
+            );
         } else {
-            if (gamepad1.right_trigger > 0.1) {
-                forward = gamepad2.left_stick_y * gamepad2Coef;
-                strafe = gamepad2.left_stick_x * gamepad2Coef;
-
-                if (allianceColor == AllianceColor.BLUE.toString()) {
-                    double targetHeading = Math.atan2(
-                            Poses.blueGoalPose.getY() - follower.getPose().getY(),
-                            Poses.blueGoalPose.getX() - follower.getPose().getX()
-                    );
-
-                    double currentHeading = follower.getPose().getHeading();
-
-                    double error = targetHeading - currentHeading;
-
-                    while (error > Math.PI)  error -= 2 * Math.PI;
-                    while (error < -Math.PI) error += 2 * Math.PI;
-
-                    double kP = 0.9;
-                    rotation = error * kP;
-
-                    rotation = Math.max(-1.0, Math.min(1.0, rotation));
-                    /*
-                    rotation = visualManager.getTargetRotation(
-                            cameraTimer.seconds(),
-                            follower,
-                            Poses.blueGoalPose
-                    );
-                     */
-                } else {
-                    double targetHeading = Math.atan2(
-                            Poses.blueGoalPose.getY() - follower.getPose().getY(),
-                            Poses.blueGoalPose.getX() - follower.getPose().getX()
-                    );
-
-                    double currentHeading = follower.getPose().getHeading();
-
-                    double error = targetHeading - currentHeading;
-
-                    while (error > Math.PI)  error -= 2 * Math.PI;
-                    while (error < -Math.PI) error += 2 * Math.PI;
-
-                    double kP = 0.9;
-                    rotation = error * kP;
-
-                    rotation = Math.max(-1.0, Math.min(1.0, rotation));
-                    /*
-                    rotation = visualManager.getTargetRotation(
-                            cameraTimer.seconds(),
-                            follower,
-                            Poses.redGoalPose
-                    );
-                     */
-                }
-
-            }
-            else {
-                forward = gamepad2.left_stick_y * gamepad2Coef;
-                strafe = gamepad2.left_stick_x * gamepad2Coef;
-                rotation = gamepad2.right_stick_x * gamepad2Coef;
-            }
-
-            if (drivingTypeGm2 == DrivingType.ROBOT_CENTRIC) {
-                follower.setTeleOpDrive(
-                        forward,
-                        strafe,
-                        rotation,
-                        true
-                );
-            } else {
-                follower.setTeleOpDrive(
-                        forward,
-                        strafe,
-                        rotation,
-                        false
-                );
-            }
+            follower.setTeleOpDrive(
+                    forward,
+                    strafe,
+                    rotation,
+                    false
+            );
         }
 
         if (gamepad1.rightBumperWasPressed()) shootingManager.shoot();
@@ -312,25 +208,36 @@ public class MainTeleOp extends OpMode {
             );
         }
 
+        /*
         telemetry.addData("distance", visualManager.getDistance());
         telemetry.addData("YAW", limelight.getYaw());
         telemetry.addData("speed", outtake.getRPM());
         telemetry.addData("target", outtake.getTargetRPM());
         telemetry.addData("Distance", follower.getPose().distanceFrom(Poses.blueGoalPose));
+
+         */
         intakingManager.update();
         timer.reset();
         cameraTimer.reset();
 
-        if (visionPose != null && !gamepad1IsActive && follower.getPose().distanceFrom(Poses.blueGoalPose) <= 100) {
+        Pose visionPose = limelight.getPose();
+
+        if (visionPose != null && !gamepad1IsActive && follower.getPose().distanceFrom(Poses.blueGoalPose) < 50) {
+            /*
             telemetry.addData("x", visionPose.getX());
             telemetry.addData("y", visionPose.getY());
-            telemetry.addData("angle", visionPose.getHeading());
-            follower.setPose(new Pose(visionPose.mirror().getX(), visionPose.mirror().getY(), visionPose.mirror().getHeading()));
+            telemetry.addData("angle", Math.toDegrees(visionPose.getHeading()));
+            telemetry.addLine("relocalized");
+
+             */
+            follower.setPose(visionPose);
+            telemetry.update();
         }
 
         telemetry.addData("curent pose x", follower.getPose().getX());
         telemetry.addData("curent pose y", follower.getPose().getY());
         telemetry.addData("curent pose h", Math.toDegrees(follower.getPose().getHeading()));
+        telemetry.addData("distance", follower.getPose().distanceFrom(Poses.blueGoalPose));
 
         telemetry.update();
     }

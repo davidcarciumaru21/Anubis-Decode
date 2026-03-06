@@ -104,21 +104,20 @@ public class Limelight {
     }
 
     public Pose getPose() {
-
         LLResult llResult = limelight.getLatestResult();
+        if (llResult == null || !llResult.isValid()) return null;
 
-        if (llResult == null || !llResult.isValid()) {
-            return null;
-        }
+        Pose3D wpiPose = llResult.getBotpose();
 
-        Pose3D pose = llResult.getBotpose();
+        double xInches = wpiPose.getPosition().x * 39.3701;
+        double yInches = wpiPose.getPosition().y * 39.3701;
 
-        double x = pose.getPosition().x * 39.3701 + 72;
-        double y = pose.getPosition().y * 39.3701 + 72;
+        double xPedro = xInches + 72;
+        double yPedro = -yInches + 72;
 
-        double heading = pose.getOrientation().getYaw(AngleUnit.RADIANS) - Math.PI / 2;
+        double headingPedro = -Math.toRadians(wpiPose.getOrientation().getYaw());
 
-        return new Pose(x, y, heading);
+        return new Pose(xPedro, yPedro, headingPedro);
     }
 
     public boolean hasTarget() {
