@@ -2,14 +2,16 @@ package org.firstinspires.ftc.teamcode.systems;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import com.pedropathing.geometry.Pose;
+import com.qualcomm.robotcore.hardware.IMU;
 
 public class Limelight {
     private Limelight3A limelight;
+    private IMU imu;
     private double lastTxAngle;
     private double lastX = 1.8;
     private double lastY = 1.8;
@@ -18,9 +20,12 @@ public class Limelight {
     private boolean hasTarget;
 
     public Limelight(HardwareMap hardwareMap, int index){
+        imu = hardwareMap.get(IMU.class, "imu");
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(index);
         limelight.start();
+        RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.UP);
+        imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
     }
 
     public double getYaw(){
@@ -103,8 +108,30 @@ public class Limelight {
         return lastTaAngle;
     }
 
+    public double getZ() {
+        LLResult llResult = limelight.getLatestResult();
+        limelight.updateRobotOrientation(imu.getRobotYawPitchRollAngles().getYaw());
+
+        if (llResult == null || !llResult.isValid()) return 0;
+
+        Pose3D wpiPose = llResult.getBotpose();
+
+        double xInches = wpiPose.getPosition().x * 39.3701;
+        double yInches = wpiPose.getPosition().y * 39.3701;
+        double zInches = wpiPose.getPosition().z * 39.3701;
+
+        double xPedro = xInches + 72;
+        double yPedro = Math.abs(yInches) + 72;
+
+        double headingPedro = -Math.toRadians(wpiPose.getOrientation().getYaw());
+
+        return zInches;
+    }
+
     public Pose getPose() {
         LLResult llResult = limelight.getLatestResult();
+        limelight.updateRobotOrientation(imu.getRobotYawPitchRollAngles().getYaw());
+
         if (llResult == null || !llResult.isValid()) return null;
 
         Pose3D wpiPose = llResult.getBotpose();

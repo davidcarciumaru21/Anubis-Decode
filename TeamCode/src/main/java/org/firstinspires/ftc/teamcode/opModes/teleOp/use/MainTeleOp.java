@@ -137,7 +137,7 @@ public class MainTeleOp extends OpMode {
                 while (error > Math.PI)  error -= 2 * Math.PI;
                 while (error < -Math.PI) error += 2 * Math.PI;
 
-                double kP = 0.9;
+                double kP = 0.5;
                 rotation = error * kP;
 
                 rotation = Math.max(-1.0, Math.min(1.0, rotation));
@@ -155,7 +155,7 @@ public class MainTeleOp extends OpMode {
                 while (error > Math.PI)  error -= 2 * Math.PI;
                 while (error < -Math.PI) error += 2 * Math.PI;
 
-                double kP = 0.9;
+                double kP = 0.8;
                 rotation = error * kP;
 
                 rotation = Math.max(-1.0, Math.min(1.0, rotation));
@@ -223,16 +223,19 @@ public class MainTeleOp extends OpMode {
         Pose visionPose = limelight.getPose();
 
         if (visionPose != null && !gamepad1IsActive && follower.getPose().distanceFrom(Poses.blueGoalPose) < 50) {
+
             /*
             telemetry.addData("x", visionPose.getX());
             telemetry.addData("y", visionPose.getY());
             telemetry.addData("angle", Math.toDegrees(visionPose.getHeading()));
-            telemetry.addLine("relocalized");
 
              */
+            telemetry.addLine("relocalized");
+
             follower.setPose(visionPose);
             telemetry.update();
         }
+        telemetry.addData("asss", limelight.getZ());
 
         telemetry.addData("curent pose x", follower.getPose().getX());
         telemetry.addData("curent pose y", follower.getPose().getY());
