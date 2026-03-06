@@ -113,7 +113,7 @@ public class Limelight {
         double yInches = wpiPose.getPosition().y * 39.3701;
 
         double xPedro = xInches + 72;
-        double yPedro = -yInches + 72;
+        double yPedro = Math.abs(yInches) + 72;
 
         double headingPedro = -Math.toRadians(wpiPose.getOrientation().getYaw());
 
