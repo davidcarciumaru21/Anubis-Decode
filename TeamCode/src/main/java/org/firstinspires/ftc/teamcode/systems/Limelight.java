@@ -108,26 +108,6 @@ public class Limelight {
         return lastTaAngle;
     }
 
-    public double getZ() {
-        LLResult llResult = limelight.getLatestResult();
-        limelight.updateRobotOrientation(imu.getRobotYawPitchRollAngles().getYaw());
-
-        if (llResult == null || !llResult.isValid()) return 0;
-
-        Pose3D wpiPose = llResult.getBotpose();
-
-        double xInches = wpiPose.getPosition().x * 39.3701;
-        double yInches = wpiPose.getPosition().y * 39.3701;
-        double zInches = wpiPose.getPosition().z * 39.3701;
-
-        double xPedro = xInches + 72;
-        double yPedro = Math.abs(yInches) + 72;
-
-        double headingPedro = -Math.toRadians(wpiPose.getOrientation().getYaw());
-
-        return zInches;
-    }
-
     public Pose getPose() {
         LLResult llResult = limelight.getLatestResult();
         limelight.updateRobotOrientation(imu.getRobotYawPitchRollAngles().getYaw());
@@ -135,6 +115,8 @@ public class Limelight {
         if (llResult == null || !llResult.isValid()) return null;
 
         Pose3D wpiPose = llResult.getBotpose();
+
+        if (llResult.getBotpose().getPosition().z >= 30) return null;
 
         double xInches = wpiPose.getPosition().x * 39.3701;
         double yInches = wpiPose.getPosition().y * 39.3701;

@@ -235,7 +235,6 @@ public class MainTeleOp extends OpMode {
             follower.setPose(visionPose);
             telemetry.update();
         }
-        telemetry.addData("asss", limelight.getZ());
 
         telemetry.addData("curent pose x", follower.getPose().getX());
         telemetry.addData("curent pose y", follower.getPose().getY());
