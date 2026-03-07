@@ -48,6 +48,7 @@ public class MainTeleOp extends OpMode {
 
     private double forward = 0.0, strafe = 0.0, rotation = 0.0;
     private boolean turretAim = false;
+    private boolean isRelocalizing = false;
 
     private boolean gamepad1IsActive = false;
     private DrivingType drivingTypeGm1 = DrivingType.ROBOT_CENTRIC;
@@ -137,7 +138,7 @@ public class MainTeleOp extends OpMode {
                 while (error > Math.PI)  error -= 2 * Math.PI;
                 while (error < -Math.PI) error += 2 * Math.PI;
 
-                double kP = 0.5;
+                double kP = 1.1;
                 rotation = error * kP;
 
                 rotation = Math.max(-1.0, Math.min(1.0, rotation));
@@ -155,12 +156,13 @@ public class MainTeleOp extends OpMode {
                 while (error > Math.PI)  error -= 2 * Math.PI;
                 while (error < -Math.PI) error += 2 * Math.PI;
 
-                double kP = 0.8;
+                double kP = 1.1;
                 rotation = error * kP;
 
                 rotation = Math.max(-1.0, Math.min(1.0, rotation));
             }
         } else{
+
             forward = -gamepad1.left_stick_y * gamepad1Coef;
             strafe = -gamepad1.left_stick_x * gamepad1Coef;
             rotation = -gamepad1.right_stick_x * gamepad1Coef;
@@ -222,7 +224,11 @@ public class MainTeleOp extends OpMode {
 
         Pose visionPose = limelight.getPose();
 
-        if (visionPose != null && !gamepad1IsActive && follower.getPose().distanceFrom(Poses.blueGoalPose) < 50) {
+        if (gamepad1.aWasPressed()){
+            isRelocalizing = true;
+        }
+
+        if (visionPose != null && !gamepad1IsActive && isRelocalizing) {
 
             /*
             telemetry.addData("x", visionPose.getX());
@@ -231,6 +237,7 @@ public class MainTeleOp extends OpMode {
 
              */
             telemetry.addLine("relocalized");
+            isRelocalizing = false;
 
             follower.setPose(visionPose);
             telemetry.update();

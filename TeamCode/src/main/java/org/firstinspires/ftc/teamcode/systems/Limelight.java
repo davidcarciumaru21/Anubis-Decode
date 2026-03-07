@@ -110,13 +110,12 @@ public class Limelight {
 
     public Pose getPose() {
         LLResult llResult = limelight.getLatestResult();
-        limelight.updateRobotOrientation(imu.getRobotYawPitchRollAngles().getYaw());
 
         if (llResult == null || !llResult.isValid()) return null;
 
         Pose3D wpiPose = llResult.getBotpose();
 
-        if (llResult.getBotpose().getPosition().z >= 30) return null;
+        if (Math.abs(llResult.getBotpose().getPosition().z * 39.3701) >= 6) return null;
 
         double xInches = wpiPose.getPosition().x * 39.3701;
         double yInches = wpiPose.getPosition().y * 39.3701;
@@ -127,6 +126,14 @@ public class Limelight {
         double headingPedro = -Math.toRadians(wpiPose.getOrientation().getYaw());
 
         return new Pose(xPedro, yPedro, headingPedro);
+    }
+
+    public Pose3D getFullPose() {
+        LLResult llResult = limelight.getLatestResult();
+
+        if (llResult == null || !llResult.isValid()) return null;
+
+        return llResult.getBotpose();
     }
 
     public boolean hasTarget() {
