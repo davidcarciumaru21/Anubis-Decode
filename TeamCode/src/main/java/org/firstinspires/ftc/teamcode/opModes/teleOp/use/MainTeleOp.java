@@ -2,10 +2,13 @@ package org.firstinspires.ftc.teamcode.opModes.teleOp.use;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.global.AllianceColor;
 import org.firstinspires.ftc.teamcode.global.DrivingType;
 import org.firstinspires.ftc.teamcode.global.Poses;
@@ -36,6 +39,10 @@ public class MainTeleOp extends OpMode {
     private Indexer indexer;
     private Deflector deflector;
     private Outtake outtake;
+    private IMU imu;
+    private double imuOffset;
+    private double lastImuYaw = 0;
+    private double continuousHeading = 0;
     private Limelight limelight;
 
     private VisualManager visualManager;
@@ -58,6 +65,11 @@ public class MainTeleOp extends OpMode {
 
     @Override
     public void init() {
+        imu = hardwareMap.get(IMU.class, "imu");
+        RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.UP);
+        imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
+
+
         follower = Constants.createFollower(hardwareMap);
 
         File file = AppUtil.getInstance().getSettingsFile("RobotSettings.json");
@@ -77,6 +89,7 @@ public class MainTeleOp extends OpMode {
 
         }
         follower.update();
+        imuOffset = Math.toDegrees(follower.getPose().getHeading());
 
         intake = new Intake(hardwareMap);
         indexer = new Indexer(hardwareMap);
@@ -99,13 +112,24 @@ public class MainTeleOp extends OpMode {
 
     @Override
     public void start() {
+
         follower.startTeleOpDrive();
         timer.reset();
         cameraTimer.reset();
+        lastImuYaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
     }
 
     @Override
     public void loop() {
+        double currentYaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+
+        double delta = currentYaw - lastImuYaw;
+
+        if (delta > 180) delta -= 360;
+        if (delta < -180) delta += 360;
+
+        continuousHeading += delta;
+        lastImuYaw = currentYaw;
 
         gamepad1IsActive = Math.abs(gamepad1.left_stick_y) > GamepadsSettings.gamepadTrashold ||
                 Math.abs(gamepad1.left_stick_x) > GamepadsSettings.gamepadTrashold ||
@@ -228,8 +252,8 @@ public class MainTeleOp extends OpMode {
             isRelocalizing = true;
         }
 
-        if (visionPose != null && !gamepad1IsActive && isRelocalizing) {
-
+        if (visionPose != null && isRelocalizing) {
+            visionPose.setHeading(Math.toRadians(continuousHeading + imuOffset));
             /*
             telemetry.addData("x", visionPose.getX());
             telemetry.addData("y", visionPose.getY());
@@ -242,6 +266,13 @@ public class MainTeleOp extends OpMode {
             follower.setPose(visionPose);
             telemetry.update();
         }
+
+        if(visionPose != null) {
+            telemetry.addData("x", visionPose.getX());
+            telemetry.addData("y", visionPose.getY());
+            telemetry.addData("angle", Math.toDegrees(visionPose.getHeading()));
+        }
+        telemetry.addData("angle from imu", continuousHeading + imuOffset);
 
         telemetry.addData("curent pose x", follower.getPose().getX());
         telemetry.addData("curent pose y", follower.getPose().getY());
