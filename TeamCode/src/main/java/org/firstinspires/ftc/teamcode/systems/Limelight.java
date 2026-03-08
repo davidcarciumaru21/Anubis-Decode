@@ -18,6 +18,10 @@ public class Limelight {
     private double lastHeading;
     private double lastTaAngle;
     private boolean hasTarget;
+    private double filteredX = 72;
+    private double filteredY = 72;
+    private static final double FILTER_ALPHA = 0.25; // smoothing factor
+
 
     public Limelight(HardwareMap hardwareMap, int index){
         imu = hardwareMap.get(IMU.class, "imu");
